@@ -1,3 +1,4 @@
+import 'package:brandsinfo/presentation/screen/businessinfo/businessinfo_controller.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/business_controller.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/widget/dashboard_grid.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/widget/add_business.dart';
@@ -11,7 +12,8 @@ import 'package:get/get.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final BusinessController controller = Get.put(BusinessController());
-
+  final BusinessinfoController infocontroller =
+      Get.put(BusinessinfoController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +84,10 @@ class HomeScreen extends StatelessWidget {
                   var business = businesses[index];
                   return GestureDetector(
                     onTap: () {
+                      infocontroller.fetchBusinessData(business.id.toString());
+
                       print(business.id);
+                      //business.id
                     },
                     child: BusinessCard(
                       score: business.score,

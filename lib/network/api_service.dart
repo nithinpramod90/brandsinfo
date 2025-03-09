@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:brandsinfo/network/api_constants.dart';
 import 'package:brandsinfo/utils/secure_storage.dart';
 import 'package:dio/dio.dart';
@@ -31,9 +33,12 @@ class ApiService {
   }
 
   Future<Response> post(String endpoint, Map<String, dynamic> data,
-      {bool useSession = false}) async {
+      {bool useSession = false, bool isMultipart = false}) async {
     try {
-      Map<String, String> headers = {};
+      Map<String, String> headers = {
+        "Content-Type":
+            isMultipart ? "multipart/form-data" : "application/json",
+      };
 
       if (useSession) {
         String? sessionId = await SecureStorage.getSessionId();
@@ -42,13 +47,33 @@ class ApiService {
         }
       }
 
+      FormData formData = FormData();
+
+      // Add text fields
+      data.forEach((key, value) {
+        if (value is String || value is int || value is double) {
+          formData.fields.add(MapEntry(key, value.toString()));
+        }
+      });
+
+      // Attach images
+      if (data.containsKey("images[]") && data["images[]"] is List<File>) {
+        for (File file in data["images[]"]) {
+          formData.files.add(MapEntry(
+            "images[]",
+            MultipartFile.fromFileSync(file.path,
+                filename: file.path.split('/').last),
+          ));
+        }
+      }
+
       final response = await _dio.post(
         endpoint,
-        data: data,
+        data: isMultipart ? formData : data,
         options: Options(headers: headers),
       );
 
-      print('omr req $response');
+      print('Response: ${response.data}');
       return response;
     } catch (e) {
       throw Exception("Error: $e");

@@ -47,7 +47,8 @@ class LoginScreen extends StatelessWidget {
                         labelText: 'Enter your phone number',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
-                          borderSide: const BorderSide(color: Colors.orange),
+                          borderSide:
+                              const BorderSide(color: Color(0xffFF750C)),
                         ),
                         prefixText: '+91  ',
                         prefixStyle: Theme.of(context).textTheme.headlineSmall,
@@ -61,8 +62,8 @@ class LoginScreen extends StatelessWidget {
                           onChanged: (bool? value) {
                             // Do nothing, or implement logic if needed
                           },
-                          activeColor:
-                              Colors.orange, // Background color of the checkbox
+                          activeColor: Color(
+                              0xffFF750C), // Background color of the checkbox
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4.0),
                           ),
@@ -79,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                                 TextSpan(
                                   text: 'terms and conditions',
                                   style: const TextStyle(
-                                    color: Colors.orange,
+                                    color: Color(0xffFF750C),
                                     fontWeight: FontWeight.normal,
                                   ),
                                   recognizer: TapGestureRecognizer()
@@ -93,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                                 TextSpan(
                                   text: 'privacy policy',
                                   style: const TextStyle(
-                                    color: Colors.orange, // Highlight color
+                                    color: Color(0xffFF750C), // Highlight color
 
                                     fontWeight: FontWeight.normal,
                                   ),

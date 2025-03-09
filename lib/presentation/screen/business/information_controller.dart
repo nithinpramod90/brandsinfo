@@ -1,5 +1,8 @@
 import 'package:brandsinfo/network/api_service.dart';
 import 'package:brandsinfo/presentation/screen/add_product/add_product_screen.dart';
+import 'package:brandsinfo/presentation/screen/add_service/add_service_screen.dart';
+import 'package:brandsinfo/widgets/common_snackbar.dart';
+import 'package:brandsinfo/widgets/loader.dart';
 import 'package:get/get.dart';
 
 class InformationController extends GetxController {
@@ -16,6 +19,7 @@ class InformationController extends GetxController {
     String businessType,
   ) async {
     try {
+      Loader.show();
       final response = await _apiService.post(
         '/users/buisnesses/',
         {
@@ -30,20 +34,40 @@ class InformationController extends GetxController {
         },
         useSession: true,
       );
-
+      final int businessid = response.data["id"];
       if (response.statusCode == 201) {
-        if (businessType == "Product and Services" ||
-            businessType == "Product") {
-          Get.off(() => AddProductScreen());
+        if (businessType == "Products & Services") {
+          Get.off(() => AddProductScreen(
+                nav: true,
+                id: businessid,
+              ));
         } else if (businessType == "Service") {
-          print("Go to service page");
-          // Get.off(() => AddProductScreen());
+          Get.off(() => AddServiceScreen(
+                business: businessid,
+              ));
+        } else if (businessType == "Product") {
+          Get.off(() => AddProductScreen(
+                nav: false,
+                id: businessid,
+              ));
         }
+        Loader.hide();
       } else {
-        print(response.data);
+        CommonSnackbar.show(
+          title: "error",
+          message: "Unepected Error Occured",
+          isError: true,
+        );
+        Loader.hide();
       }
     } catch (e) {
+      CommonSnackbar.show(
+        title: "error",
+        message: "Unepected Error Occured",
+        isError: true,
+      );
       print("Error refreshing session: $e");
+      Loader.hide();
     }
   }
 }

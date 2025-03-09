@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:brandsinfo/network/api_constants.dart';
 import 'package:brandsinfo/network/api_service.dart';
 import 'package:brandsinfo/presentation/screen/business/information_controller.dart';
@@ -13,19 +11,18 @@ import 'package:brandsinfo/widgets/sized_box.dart';
 
 class InformationScreen extends StatefulWidget {
   const InformationScreen({super.key});
-
   @override
-  _InformationScreenState createState() => _InformationScreenState();
+  InformationScreenState createState() => InformationScreenState();
 }
 
-class _InformationScreenState extends State<InformationScreen> {
+class InformationScreenState extends State<InformationScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController businessNameController = TextEditingController();
   final TextEditingController pincodeController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController districtController = TextEditingController();
   final TextEditingController whatsappController = TextEditingController();
-  String? selectedBusinessType = "Product and Services";
+  String? selectedBusinessType = "Products & Services";
   String? selectedLocality;
   int? selectedLocalityId; // Change type to int
   int? cityid; // Change type to int
@@ -88,7 +85,7 @@ class _InformationScreenState extends State<InformationScreen> {
                       ),
                       CommonSizedBox.h10,
                       CustomDropdown(
-                        items: ["Product and Services", "Product", "Service"],
+                        items: ["Products & Services", "Product", "Service"],
                         selectedItem: selectedBusinessType,
                         onChanged: (value) {
                           setState(() {
@@ -101,6 +98,7 @@ class _InformationScreenState extends State<InformationScreen> {
                         controller: pincodeController,
                         hintText: "Pincode",
                         keyboardType: TextInputType.number,
+                        maxlength: 6,
                         validator: (value) =>
                             value!.isEmpty ? 'Pincode is required' : null,
                         onChanged: fetchAndSetCityState,
@@ -161,7 +159,8 @@ class _InformationScreenState extends State<InformationScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12.0),
-                            borderSide: const BorderSide(color: Colors.orange),
+                            borderSide:
+                                const BorderSide(color: Color(0xffFF750C)),
                           ),
                         ),
                       ),
@@ -171,6 +170,7 @@ class _InformationScreenState extends State<InformationScreen> {
                         hintText: "Enter your WhatsApp number",
                         keyboardType: TextInputType.phone,
                         prefixText: "+91 ",
+                        maxlength: 10,
                         validator: (value) => value!.isEmpty
                             ? 'WhatsApp number is required'
                             : null,

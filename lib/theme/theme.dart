@@ -6,8 +6,8 @@ class AppThemes {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     colorScheme: const ColorScheme.light(
-      primary: Colors.orange,
-      secondary: Colors.orangeAccent,
+      primary: Color(0xffFF750C),
+      secondary: Color(0xffFF750C),
       surface: Colors.white,
       onPrimary: Colors.white,
       onSecondary: Colors.black,
@@ -34,7 +34,7 @@ class AppThemes {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.orange,
+        backgroundColor: Color(0xffFF750C),
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6), // Small curve
@@ -47,8 +47,8 @@ class AppThemes {
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     colorScheme: const ColorScheme.dark(
-      primary: Colors.orange,
-      secondary: Colors.orangeAccent, // Greyish Black
+      primary: Color(0xffFF750C),
+      secondary: Color(0xffFF750C), // Greyish Black
       surface: Color(0xFF1E1E1E), // Slightly lighter grey-black for contrast
       onPrimary: Colors.white,
       onSecondary: Colors.white,
@@ -73,7 +73,7 @@ class AppThemes {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.orange,
+        backgroundColor: Color(0xffFF750C),
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6), // Small curve

@@ -24,7 +24,6 @@ class SplashScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 1.5,
                     child: CircularImageWidget(
                       size: Get.width / 3,
-                      borderColor: Colors.orange,
                       imageScale: 0.5,
                     ),
                   ),

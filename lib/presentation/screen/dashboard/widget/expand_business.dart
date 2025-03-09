@@ -14,9 +14,9 @@ class ExpandBusiness extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.orange,
+          color: Color(0xffFF750C),
         ),
-        // color: Colors.orange.shade400, // Transparent orange background
+        // color: Color(0xffFF750C).shade400, // Transparent orange background
         borderRadius: BorderRadius.circular(8.0), // Curved borders
       ),
       child: Padding(
@@ -46,7 +46,7 @@ class ExpandBusiness extends StatelessWidget {
                 Get.to(() => InformationScreen());
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange, // Black background
+                backgroundColor: Color(0xffFF750C), // Black background
                 elevation: 5, // Elevation for the "raised" effect
                 padding: EdgeInsets.symmetric(
                     horizontal: 20, vertical: 12), // Padding

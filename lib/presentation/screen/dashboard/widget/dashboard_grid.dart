@@ -18,8 +18,19 @@ class BusinessCard extends StatelessWidget {
     this.image,
     required this.score,
   });
+  double convertProgressStringToDouble(String score) {
+    try {
+      return double.parse(score) / 100;
+    } catch (e) {
+      print("Error converting progress string to double: $e");
+      return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double progressValue = convertProgressStringToDouble(score);
+
     return Padding(
       padding: const EdgeInsets.all(12),
       child: ClipRRect(
@@ -99,10 +110,11 @@ class BusinessCard extends StatelessWidget {
                     ),
                     SizedBox(width: 10), // 🔹 Add spacing
                     circular_percent_widget(
-                      color: Colors.orange,
+                      color: Color(0xffFF750C),
                       radious: 30,
                       score: score,
-                      percent: double.parse("0.$score"),
+                      percent: progressValue,
+                      linewidth: 4.0,
                     ),
                     SizedBox(width: 20), // 🔹 Add spacing
                   ],

@@ -3,6 +3,7 @@ import 'package:brandsinfo/presentation/screen/dashboard/dashboard_screen.dart';
 import 'package:brandsinfo/presentation/screen/login/name_screen.dart';
 import 'package:brandsinfo/presentation/screen/login/otp_screen.dart';
 import 'package:brandsinfo/utils/secure_storage.dart';
+import 'package:brandsinfo/widgets/common_snackbar.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
@@ -21,10 +22,16 @@ class SignupController extends GetxController {
           Get.to(() => NameScreen(phone: phone));
         }
       } else {
-        Get.snackbar("Error", "Unexpected response from server");
+        CommonSnackbar.show(
+            isError: true,
+            title: "Error",
+            message: "Something Unexcepted Occured !");
       }
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      CommonSnackbar.show(
+          isError: true,
+          title: "Error",
+          message: "Something Unexcepted Occured !");
     }
   }
 
@@ -46,14 +53,20 @@ class SignupController extends GetxController {
 
           Get.offAll(() => HomeScreen());
         } else {
-          Get.snackbar("Error", "Invalid OTP or missing session data");
+          CommonSnackbar.show(
+              isError: true, title: "Error", message: "Invalid OTP");
         }
       } else {
-        Get.snackbar(
-            "Error", "Unexpected response from server: ${response.statusCode}");
+        CommonSnackbar.show(
+            isError: true,
+            title: "Error",
+            message: "Something Unexpected occured !");
       }
     } catch (e) {
-      Get.snackbar("Error", "Exception: $e");
+      CommonSnackbar.show(
+          isError: true,
+          title: "Error",
+          message: "Something Unexpected Occured");
     }
   }
 
@@ -69,11 +82,17 @@ class SignupController extends GetxController {
         if (responseData['message'] == "Name Saved") {
           Get.to(() => OtpScreen(phno: phone));
         } else {
-          Get.snackbar("Error", "Unexpected response from server");
+          CommonSnackbar.show(
+              isError: true,
+              title: "Error",
+              message: "Something Unexpected Occured");
         }
       }
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      CommonSnackbar.show(
+          isError: true,
+          title: "Error",
+          message: "Something Unexpected Occured");
     }
   }
 }

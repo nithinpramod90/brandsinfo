@@ -1,9 +1,6 @@
-import 'package:brandsinfo/presentation/screen/login/login_screen.dart';
-import 'package:brandsinfo/utils/secure_storage.dart';
 import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int notificationCount;
@@ -28,18 +25,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        SecureStorage.clearSession();
-                        Get.offAll(() => LoginScreen());
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: Colors.orange.shade400,
-                        radius: 20,
-                        backgroundImage:
-                            AssetImage('assets/images/avathar.png'),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     SecureStorage.clearSession();
+                    //     Get.offAll(() => LoginScreen());
+                    //   },
+                    //   child: CircleAvatar(
+                    //     backgroundColor: Color(0xffFF750C).shade400,
+                    //     radius: 20,
+                    //     backgroundImage:
+                    //         AssetImage('assets/images/avathar.png'),
+                    //   ),
+                    // ),
                     CommonSizedBox.w10,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

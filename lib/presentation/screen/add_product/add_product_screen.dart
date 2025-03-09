@@ -1,56 +1,78 @@
 import 'package:brandsinfo/presentation/screen/add_product/add_product_controller.dart';
-import 'package:brandsinfo/presentation/screen/business/widgets/custom_dropdown.dart';
+import 'package:brandsinfo/presentation/screen/add_product/widgets/product_category_widget.dart';
+import 'package:brandsinfo/presentation/screen/add_service/add_service_screen.dart';
+import 'package:brandsinfo/presentation/screen/search_sector/search_sector_screen.dart';
 import 'package:brandsinfo/presentation/widgets/circular_image_widget.dart';
 import 'package:brandsinfo/presentation/widgets/custom_textfield.dart';
+import 'package:brandsinfo/widgets/common_snackbar.dart';
+import 'package:brandsinfo/widgets/imagepicker/image_picker_controller.dart';
+import 'package:brandsinfo/widgets/imagepicker/image_picker_widget.dart';
+import 'package:brandsinfo/widgets/loader.dart';
 import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class AddProductScreen extends StatefulWidget {
+  final bool nav;
+  final int id;
+  const AddProductScreen({super.key, required this.nav, required this.id});
+
   @override
   _AddProductScreenState createState() => _AddProductScreenState();
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
   final ProductController productController = Get.put(ProductController());
+  final ImagePickerController imagePickerController =
+      Get.put(ImagePickerController());
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
-  File? _image;
-  final picker = ImagePicker();
+  String selectedCategory = '';
+  String catid = '';
 
-  Future<void> _pickImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-    }
-  }
+  List<File> selectedImages = [];
+  late ImagePickerWidget imagePickerWidget;
 
   void _addProduct() {
-    if (_formKey.currentState!.validate() && _image != null) {
+    if (_formKey.currentState!.validate() &&
+        imagePickerController.selectedImages.isNotEmpty) {
+      Loader.show();
       productController.addProduct(Product(
         name: nameController.text,
         price: double.parse(priceController.text),
         description: descController.text,
         category: categoryController.text,
-        image: _image!.path,
+        image: imagePickerController.selectedImages
+            .map((e) => e.path)
+            .toList()
+            .join(','), // Store image paths
       ));
+      productController.addProductapi(
+          name: nameController.text,
+          description: descController.text,
+          price: priceController.text,
+          subCat: catid,
+          business: widget.id,
+          imagePaths:
+              imagePickerController.selectedImages.map((e) => e.path).toList());
+      // Clear input fields
       nameController.clear();
       priceController.clear();
       descController.clear();
       categoryController.clear();
-      setState(() {
-        _image = null;
-      });
+
+      // Clear selected images from ImagePickerWidget
+      imagePickerController.clearImages();
+    } else {
+      CommonSnackbar.show(
+          title: "Error", message: "Add Image and Continue", isError: true);
     }
   }
 
@@ -104,49 +126,24 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       Row(
                         children: [
                           Expanded(
-                            child: CustomTextField(
-                              controller: categoryController,
-                              hintText: "Product Category",
-                              validator: (value) => value!.isEmpty
-                                  ? 'Category is required'
-                                  : null,
+                            child: ProductCategoryWidget(
+                              textEditingController: categoryController,
+                              oncatid: (cat) {
+                                setState(() {
+                                  catid = cat;
+                                });
+                              },
+                              onCategorySelected: (category) {
+                                setState(() {
+                                  selectedCategory = category;
+                                });
+                              },
                             ),
                           ),
                           CommonSizedBox.w5,
                           Expanded(
-                            child: ElevatedButton(
-                              onPressed: _pickImage,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 14),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  side: BorderSide(
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.dark
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.cloud_upload,
-                                    color: Colors.orange,
-                                    size: 24,
-                                  ),
-                                  CommonSizedBox.w5,
-                                  Text("Add Image",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium),
-                                ],
-                              ),
-                            ),
-                          )
+                            child: ImagePickerWidget(),
+                          ),
                         ],
                       ),
                       CommonSizedBox.h10,
@@ -169,11 +166,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               width: 120, // Adjust the width as needed
                               height: 80,
                               child: ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     _addProduct();
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.orange,
+                                    backgroundColor: Color(0xffFF750C),
                                     // elevation: 5,
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 14),
@@ -205,17 +202,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 ),
                                 items:
                                     productController.products.map((product) {
+                                  // Handle multiple paths issue
+                                  String firstImagePath = product.image
+                                          .contains(',')
+                                      ? product.image.split(',').first.trim()
+                                      : product.image;
+
                                   return Container(
                                     width: MediaQuery.of(context).size.width,
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 5.0),
                                     decoration: BoxDecoration(
-                                        color: Theme.of(context).brightness ==
-                                                Brightness.dark
-                                            ? Colors.black26 // Dark mode color
-                                            : Colors.indigo.shade50,
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? Colors.black26 // Dark mode color
+                                          : Colors.indigo.shade50,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
@@ -228,10 +231,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(20),
-                                              child: Image.file(
-                                                  File(product.image),
-                                                  fit: BoxFit.cover,
-                                                  height: 100),
+                                              child:
+                                                  firstImagePath.isNotEmpty &&
+                                                          File(firstImagePath)
+                                                              .existsSync()
+                                                      ? Image.file(
+                                                          File(firstImagePath),
+                                                          fit: BoxFit.cover,
+                                                          height: 100,
+                                                        )
+                                                      : Image.asset(
+                                                          'assets/images/logo.png', // Default placeholder
+                                                          fit: BoxFit.cover,
+                                                          height: 100,
+                                                        ),
                                             ),
                                           ),
                                           CommonSizedBox.w10,
@@ -249,7 +262,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyMedium),
-                                              Text("Price: \₹ ${product.price}",
+                                              Text("Price: ₹ ${product.price}",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodyLarge),
@@ -267,9 +280,26 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (productController.products.isNotEmpty) {
+                              if (widget.nav == true) {
+                                Get.off(() => AddServiceScreen(
+                                      business: widget.id,
+                                    ));
+                              } else {
+                                Get.off(() => SearchSectorScreen(
+                                      bid: widget.id,
+                                    ));
+                              }
+                            } else {
+                              CommonSnackbar.show(
+                                  isError: true,
+                                  title: "Error",
+                                  message: "Add a Product and Continue");
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
+                            backgroundColor: Color(0xffFF750C),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 14),
                             shape: RoundedRectangleBorder(
@@ -277,7 +307,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             ),
                           ),
                           child: Text(
-                            'Save and Continue',
+                            'Continue',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),
@@ -292,4 +322,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
       ),
     );
   }
+
+  // List<String> getAllImages() {
+  //   List<String> allImages = [];
+
+  //   productController.products.forEach((product) {
+  //     List<String> imageList =
+  //         product.image.split(',').map((e) => e.trim()).toList();
+  //     allImages.addAll(imageList);
+  //   });
+
+  //   return allImages;
+  // }
 }

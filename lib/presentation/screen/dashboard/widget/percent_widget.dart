@@ -8,16 +8,18 @@ class circular_percent_widget extends StatelessWidget {
     required this.radious,
     required this.score,
     required this.percent,
+    required this.linewidth,
   });
   final Color color;
   final String score;
   final double percent;
   final double radious;
+  final double linewidth;
   @override
   Widget build(BuildContext context) {
     return CircularPercentIndicator(
       radius: radious,
-      lineWidth: 4.0,
+      lineWidth: linewidth,
       percent: percent,
       center: Text(score,
           style: TextStyle(color: color, fontWeight: FontWeight.bold)),

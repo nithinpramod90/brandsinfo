@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 
 class CircularImageWidget extends StatelessWidget {
   final double size;
-  final Color borderColor;
   final double imageScale; // New: Scale for image size inside the circle
 
   const CircularImageWidget({
     super.key,
     this.size = 100, // Default outer circle size
-    this.borderColor = Colors.orange, // Default border color
     this.imageScale = 0.6, // Adjust image size inside the circle
   });
 
@@ -21,7 +19,7 @@ class CircularImageWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,
-        border: Border.all(color: borderColor, width: 5), // Orange border
+        border: Border.all(color: Color(0xffFF750C), width: 5), // Orange border
       ),
       child: ClipOval(
         child: Padding(

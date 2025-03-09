@@ -51,7 +51,7 @@ class OtpScreen extends StatelessWidget {
                           },
                           icon: Icon(
                             Icons.edit_note_rounded,
-                            color: Colors.orange,
+                            color: Color(0xffFF750C),
                           ),
                         )
                       ],
