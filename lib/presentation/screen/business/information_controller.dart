@@ -40,6 +40,7 @@ class InformationController extends GetxController {
           Get.off(() => AddProductScreen(
                 nav: true,
                 id: businessid,
+                product: false,
               ));
         } else if (businessType == "Service") {
           Get.off(() => AddServiceScreen(
@@ -49,6 +50,7 @@ class InformationController extends GetxController {
           Get.off(() => AddProductScreen(
                 nav: false,
                 id: businessid,
+                product: false,
               ));
         }
         Loader.hide();

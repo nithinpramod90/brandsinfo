@@ -1,3 +1,4 @@
+import 'package:brandsinfo/presentation/screen/imagegallery/image_gallery.dart';
 import 'package:brandsinfo/presentation/screen/splash/splash.dart';
 import 'package:brandsinfo/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:get/get.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const MyApp());
 }
 

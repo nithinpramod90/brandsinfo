@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class BusinessSwitch extends StatefulWidget {
-  const BusinessSwitch({super.key});
+class BusinessSwitch extends StatelessWidget {
+  final bool isAnalyticsSelected;
+  final ValueChanged<bool> onToggle;
 
-  @override
-  BusinessSwitchState createState() => BusinessSwitchState();
-}
-
-class BusinessSwitchState extends State<BusinessSwitch> {
-  bool isAnalyticsSelected = true; // Default selection
+  const BusinessSwitch({
+    super.key,
+    required this.isAnalyticsSelected,
+    required this.onToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +22,12 @@ class BusinessSwitchState extends State<BusinessSwitch> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextButton(
-                onPressed: () {
-                  setState(() {
-                    isAnalyticsSelected = true;
-                  });
-                },
+                onPressed: () => onToggle(true),
                 style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero, // Remove padding
-                  minimumSize: Size.zero, // Remove minimum size
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  overlayColor: Colors.transparent, // Remove ripple effect
+                  overlayColor: Colors.transparent,
                 ),
                 child: Text(
                   "Business Analytics",
@@ -41,24 +37,19 @@ class BusinessSwitchState extends State<BusinessSwitch> {
                     color: isAnalyticsSelected
                         ? Color(0xffFF750C)
                         : Theme.of(context).brightness == Brightness.dark
-                            ? Colors.indigo.shade50 // Dark mode color
+                            ? Colors.indigo.shade50
                             : Colors.black54,
                   ),
                 ),
               ),
               const Spacer(),
               TextButton(
-                onPressed: () {
-                  setState(() {
-                    isAnalyticsSelected = false;
-                  });
-                },
+                onPressed: () => onToggle(false),
                 style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero, // Remove padding
-                  minimumSize: Size.zero, // Remove minimum size
-                  tapTargetSize: MaterialTapTargetSize
-                      .shrinkWrap, //Optional, if you want to also reduce the tap area.
-                  overlayColor: Colors.transparent, // Remove ripple effect
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  overlayColor: Colors.transparent,
                 ),
                 child: Text(
                   "Business Details",
@@ -68,7 +59,7 @@ class BusinessSwitchState extends State<BusinessSwitch> {
                     color: !isAnalyticsSelected
                         ? Color(0xffFF750C)
                         : Theme.of(context).brightness == Brightness.dark
-                            ? Colors.indigo.shade50 // Dark mode color
+                            ? Colors.indigo.shade50
                             : Colors.black54,
                   ),
                 ),

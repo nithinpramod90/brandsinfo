@@ -11,27 +11,11 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    child: CircularImageWidget(
-                      size: Get.width / 3,
-                      imageScale: 0.5,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      body: Center(
+        child: CircularImageWidget(
+          size: Get.width / 3,
+          imageScale: 0.5,
+        ),
       ),
     );
   }

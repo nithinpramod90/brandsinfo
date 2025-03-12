@@ -1,6 +1,7 @@
 import 'package:brandsinfo/presentation/screen/add_product/add_product_controller.dart';
 import 'package:brandsinfo/presentation/screen/add_product/widgets/product_category_widget.dart';
 import 'package:brandsinfo/presentation/screen/add_service/add_service_screen.dart';
+import 'package:brandsinfo/presentation/screen/products/products_screen.dart';
 import 'package:brandsinfo/presentation/screen/search_sector/search_sector_screen.dart';
 import 'package:brandsinfo/presentation/widgets/circular_image_widget.dart';
 import 'package:brandsinfo/presentation/widgets/custom_textfield.dart';
@@ -18,7 +19,9 @@ import 'dart:io';
 class AddProductScreen extends StatefulWidget {
   final bool nav;
   final int id;
-  const AddProductScreen({super.key, required this.nav, required this.id});
+  final bool product;
+  const AddProductScreen(
+      {super.key, required this.nav, required this.id, required this.product});
 
   @override
   _AddProductScreenState createState() => _AddProductScreenState();
@@ -282,7 +285,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (productController.products.isNotEmpty) {
-                              if (widget.nav == true) {
+                              if (widget.product == true) {
+                                Get.back();
+                                Get.off(() =>
+                                    ProductScreen(bid: widget.id.toString()));
+                              } else if (widget.nav == true) {
                                 Get.off(() => AddServiceScreen(
                                       business: widget.id,
                                     ));

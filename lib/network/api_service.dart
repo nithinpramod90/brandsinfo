@@ -79,4 +79,28 @@ class ApiService {
       throw Exception("Error: $e");
     }
   }
+
+  Future<Response> delete(String endpoint, {Map<String, dynamic>? data}) async {
+    try {
+      // Retrieve the session ID (token) from secure storage
+      String? sessionId = await SecureStorage.getSessionId();
+
+      // Add the Authorization header
+      final response = await _dio.delete(
+        endpoint,
+        data: data,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $sessionId",
+            "Content-Type": "application/json",
+          },
+        ),
+      );
+
+      print('Delete response: ${response.data}');
+      return response;
+    } catch (e) {
+      throw Exception("Error: $e");
+    }
+  }
 }

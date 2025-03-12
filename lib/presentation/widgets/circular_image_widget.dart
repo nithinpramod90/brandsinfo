@@ -1,4 +1,3 @@
-import 'package:brandsinfo/network/api_constants.dart';
 import 'package:flutter/material.dart';
 
 class CircularImageWidget extends StatelessWidget {
@@ -22,13 +21,9 @@ class CircularImageWidget extends StatelessWidget {
         border: Border.all(color: Color(0xffFF750C), width: 5), // Orange border
       ),
       child: ClipOval(
-        child: Padding(
-          padding:
-              EdgeInsets.all(size * (1 - imageScale) / 2), // Center small image
-          child: Image.network(
-            "${ApiConstants.imagesurl}/Brandsinfo-logo.png",
-            fit: BoxFit.contain, // Ensures the image is smaller inside
-          ),
+        child: Image.asset(
+          "assets/images/logo.png",
+          fit: BoxFit.fill, // Ensures the image is smaller inside
         ),
       ),
     );

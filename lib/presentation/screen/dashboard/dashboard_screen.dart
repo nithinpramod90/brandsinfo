@@ -1,4 +1,5 @@
 import 'package:brandsinfo/presentation/screen/businessinfo/businessinfo_controller.dart';
+import 'package:brandsinfo/presentation/screen/businessinfo/businessinfo_screen.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/business_controller.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/widget/dashboard_grid.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/widget/add_business.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatelessWidget {
   final BusinessController controller = Get.put(BusinessController());
   final BusinessinfoController infocontroller =
       Get.put(BusinessinfoController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class HomeScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Obx(() {
           if (controller.businessResponse.value == null) {
-            return AppBar(title: Text("Loading...")); // Default while loading
+            return AppBar(title: Text("")); // Default while loading
           }
           final userProfile = controller.businessResponse.value!.userProfile;
           return CustomAppBar(
@@ -32,11 +34,33 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              CommonSizedBox.h10,
+              Text("Loading ..."),
+            ],
+          ));
         }
 
         if (controller.businessResponse.value == null) {
-          return Center(child: Text("Failed to load data"));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Failed to load data"),
+                CommonSizedBox.h10,
+                TextButton(
+                  onPressed: controller.fetchBusinesses,
+                  child: Text("Retry"),
+                )
+              ],
+            ),
+          );
         }
 
         final businesses = controller.businessResponse.value!.businesses;
@@ -84,7 +108,9 @@ class HomeScreen extends StatelessWidget {
                   var business = businesses[index];
                   return GestureDetector(
                     onTap: () {
-                      infocontroller.fetchBusinessData(business.id.toString());
+                      infocontroller.setBidAndNavigate(business.id.toString());
+                      // businessinfoController
+                      //     .fetchBusinessData(business.id.toString());
 
                       print(business.id);
                       //business.id
