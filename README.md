@@ -38,13 +38,13 @@ The BrandsInfo mobile app provides a convenient way for business owners and admi
 1.  **Clone the repository:**
 
     ```bash
-    git clone [repository URL]
+    git clone https://github.com/nithinpramod90/brandsinfo.git
     ```
 
 2.  **Navigate to the project directory:**
 
     ```bash
-    cd BrandsInfo-mobile-app
+    cd BrandsInfo
     ```
 
 3.  **Install dependencies:**
