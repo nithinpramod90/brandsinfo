@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.6
   google_fonts: ^6.2.1
   image_picker: ^1.1.2
+  intl: ^0.20.2
   lucide_icons: ^0.257.0
   percent_indicator: ^4.2.4
   pinput: ^5.0.1

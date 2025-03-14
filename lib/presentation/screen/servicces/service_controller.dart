@@ -23,14 +23,28 @@ class Service {
 
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
-      id: json['id'],
-      cat: json['cat'],
-      name: json['name'],
-      price: double.parse(json['price'].toString()),
-      image: json['image'],
-      searched: json['searched'],
-      buisness: json['buisness'],
+      id: json['id'] ?? 0,
+      cat: json['cat']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      price: _parsePrice(json['price']),
+      image: json['image']?.toString() ?? '',
+      searched: json['searched'] ?? 0,
+      buisness: json['buisness'] ?? 0,
     );
+  }
+
+  // Helper method to safely parse price
+  static double _parsePrice(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String) {
+      try {
+        return double.parse(value);
+      } catch (e) {
+        return 0.0;
+      }
+    }
+    return 0.0;
   }
 }
 
@@ -42,6 +56,7 @@ class ServiceController extends ChangeNotifier {
   String? error;
 
   ServiceController({required this.bid});
+  final apiService = ApiService();
 
   // Fetch services from the API
   Future<void> fetchServices() async {
@@ -50,7 +65,6 @@ class ServiceController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final apiService = ApiService();
       final response = await apiService.get('/users/services/?bid=$bid');
 
       if (response is List) {
@@ -75,7 +89,7 @@ class ServiceController extends ChangeNotifier {
       notifyListeners();
 
       // In real implementation, you would call API to delete:
-      // await apiService.delete('/users/services/$serviceId/');
+      await apiService.delete('/users/deleteservice/$serviceId/');
     } catch (e) {
       error = e.toString();
       notifyListeners();

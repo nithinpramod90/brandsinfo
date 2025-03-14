@@ -27,15 +27,16 @@ class _ServiceScreenState extends State<ServiceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Services'),
+        elevation: 2,
         actions: <Widget>[
           IconButton(
-              onPressed: () {
-                Get.off(
-                    () => AddServiceScreen(business: int.parse(widget.bid)));
-              },
-              icon: Icon(Icons.add)),
+            icon: Icon(Icons.add_box),
+            onPressed: () {
+              Get.off(() => AddServiceScreen(
+                  business: int.parse(widget.bid), service: true));
+            },
+          ),
         ],
-        elevation: 2,
       ),
       body: AnimatedBuilder(
         animation: controller,
@@ -115,10 +116,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: controller.fetchServices,
-        child: const Icon(Icons.refresh),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: controller.fetchServices,
+      //   child: const Icon(Icons.refresh),
+      // ),
     );
   }
 }
@@ -129,10 +130,10 @@ class ServiceCard extends StatelessWidget {
   final VoidCallback onDelete;
 
   const ServiceCard({
-    super.key,
+    Key? key,
     required this.service,
     required this.onDelete,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -155,10 +156,12 @@ class ServiceCard extends StatelessWidget {
               Positioned(
                 top: 8,
                 right: 8,
-                child: CircleAvatar(
-                  backgroundColor: Colors.red,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: IconButton(
-                    iconSize: 1,
                     icon:
                         const Icon(Icons.delete, color: Colors.white, size: 20),
                     padding: const EdgeInsets.all(4),
@@ -189,7 +192,6 @@ class ServiceCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      // ignore: deprecated_member_use
                       color: Colors.blue.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),

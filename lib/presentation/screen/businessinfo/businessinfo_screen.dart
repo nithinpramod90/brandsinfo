@@ -93,7 +93,9 @@ class _BusinessinfoScreenState extends State<BusinessinfoScreen> {
                                 keywords: analytics['keywords'] ?? [],
                               ),
                               CommonSizedBox.h20,
-                              EnquiryofferWidget(),
+                              EnquiryofferWidget(
+                                bid: business['id'].toString(),
+                              ),
                             ],
                           )
                         : Column(

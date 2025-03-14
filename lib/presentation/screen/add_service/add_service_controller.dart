@@ -101,6 +101,7 @@ class ServicesController extends GetxController {
       );
 
       if (response.statusCode == 201) {
+        print(productData);
         Loader.hide();
         CommonSnackbar.show(
             isError: false,

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
+  // ignore: unused_field
   final SplashController _controller = Get.put(SplashController());
 
   @override

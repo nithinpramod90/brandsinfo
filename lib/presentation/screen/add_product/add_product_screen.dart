@@ -292,6 +292,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               } else if (widget.nav == true) {
                                 Get.off(() => AddServiceScreen(
                                       business: widget.id,
+                                      service: false,
                                     ));
                               } else {
                                 Get.off(() => SearchSectorScreen(

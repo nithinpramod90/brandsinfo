@@ -45,6 +45,7 @@ class InformationController extends GetxController {
         } else if (businessType == "Service") {
           Get.off(() => AddServiceScreen(
                 business: businessid,
+                service: false,
               ));
         } else if (businessType == "Product") {
           Get.off(() => AddProductScreen(

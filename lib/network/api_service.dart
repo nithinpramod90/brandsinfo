@@ -96,6 +96,7 @@ class ApiService {
           },
         ),
       );
+      print(response.statusCode);
 
       print('Delete response: ${response.data}');
       return response;

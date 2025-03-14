@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:brandsinfo/presentation/screen/add_service/add_service_controller.dart';
 import 'package:brandsinfo/presentation/screen/search_sector/search_sector_screen.dart';
+import 'package:brandsinfo/presentation/screen/servicces/service_screen.dart';
 import 'package:brandsinfo/presentation/widgets/circular_image_widget.dart';
 import 'package:brandsinfo/presentation/widgets/custom_textfield.dart';
 import 'package:brandsinfo/widgets/common_snackbar.dart';
@@ -14,8 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddServiceScreen extends StatefulWidget {
-  const AddServiceScreen({super.key, required this.business});
+  const AddServiceScreen(
+      {super.key, required this.business, required this.service});
   final int business;
+  final bool service;
   @override
   State<AddServiceScreen> createState() => _AddServiceScreenState();
 }
@@ -392,9 +395,14 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.off(() => SearchSectorScreen(
-                                  bid: widget.business,
-                                ));
+                            if (widget.service == true) {
+                              Get.off(() => ServiceScreen(
+                                  bid: widget.business.toString()));
+                            } else {
+                              Get.off(() => SearchSectorScreen(
+                                    bid: widget.business,
+                                  ));
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xffFF750C),
