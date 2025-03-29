@@ -1,5 +1,4 @@
 import 'package:brandsinfo/presentation/screen/businessinfo/businessinfo_controller.dart';
-import 'package:brandsinfo/presentation/screen/businessinfo/businessinfo_screen.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/business_controller.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/widget/dashboard_grid.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/widget/add_business.dart';
@@ -20,7 +19,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
+        preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Obx(() {
           if (controller.businessResponse.value == null) {
             return AppBar(title: Text("")); // Default while loading
@@ -34,16 +33,17 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              CommonSizedBox.h10,
-              Text("Loading ..."),
-            ],
-          ));
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                CommonSizedBox.h10,
+                Text("Loading ..."),
+              ],
+            ),
+          );
         }
 
         if (controller.businessResponse.value == null) {
@@ -52,12 +52,12 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Failed to load data"),
+                const Text("Failed to load data"),
                 CommonSizedBox.h10,
                 TextButton(
                   onPressed: controller.fetchBusinesses,
-                  child: Text("Retry"),
-                )
+                  child: const Text("Retry"),
+                ),
               ],
             ),
           );
@@ -66,8 +66,8 @@ class HomeScreen extends StatelessWidget {
         final businesses = controller.businessResponse.value!.businesses;
 
         if (businesses.isEmpty) {
-          return Padding(
-            padding: const EdgeInsets.all(18.0),
+          return const Padding(
+            padding: EdgeInsets.all(18.0),
             child: Center(
               child: AddBusiness(
                 main: 'No Businesses Added',
@@ -77,54 +77,57 @@ class HomeScreen extends StatelessWidget {
           );
         }
 
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  ExpandBusiness(
-                    main: 'Expand Your Business',
-                    sub: 'Add another location or venture.',
-                  ),
-                  CommonSizedBox.h20,
-                  Row(
-                    children: [
-                      Text(
-                        "Active Businesses",
-                        textAlign: TextAlign.start,
-                      ),
-                      Spacer(),
-                      Icon(CupertinoIcons.forward)
-                    ],
-                  ),
-                ],
+        return CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          cacheExtent: 1000, // Preloads more items
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    const ExpandBusiness(
+                      main: 'Expand Your Business',
+                      sub: 'Add another location or venture.',
+                    ),
+                    CommonSizedBox.h20,
+                    Row(
+                      children: const [
+                        Text(
+                          "Active Businesses",
+                          textAlign: TextAlign.start,
+                        ),
+                        Spacer(),
+                        Icon(CupertinoIcons.forward),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: businesses.length,
-                itemBuilder: (context, index) {
-                  var business = businesses[index];
-                  return GestureDetector(
-                    onTap: () {
-                      infocontroller.setBidAndNavigate(business.id.toString());
-                      // businessinfoController
-                      //     .fetchBusinessData(business.id.toString());
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final business = businesses[index];
 
-                      print(business.id);
-                      //business.id
-                    },
-                    child: BusinessCard(
-                      score: business.score,
-                      name: business.name,
-                      locality:
-                          ("${business.locality}, ${business.city ?? ''}"),
-                      views: business.noOfViews,
-                      image: business.image,
+                  return RepaintBoundary(
+                    child: GestureDetector(
+                      onTap: () {
+                        infocontroller
+                            .setBidAndNavigate(business.id.toString());
+                      },
+                      child: BusinessCard(
+                        score: business.score,
+                        name: business.name,
+                        locality:
+                            ("${business.locality}, ${business.city ?? ''}"),
+                        views: business.noOfViews,
+                        image: business.image,
+                      ),
                     ),
                   );
                 },
+                childCount: businesses.length,
               ),
             ),
           ],

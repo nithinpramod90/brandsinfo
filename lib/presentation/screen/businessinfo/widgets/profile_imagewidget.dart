@@ -1,14 +1,23 @@
 import 'package:brandsinfo/network/api_constants.dart';
+import 'package:brandsinfo/presentation/screen/imagegallery/image_gallery.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
+// ignore: must_be_immutable
 class ProfileImagewidget extends StatelessWidget {
-  const ProfileImagewidget(
+  ProfileImagewidget(
       {super.key,
       required this.image,
       required this.businessname,
-      required this.businesstype});
+      required this.images,
+      required this.businesstype,
+      required this.bid});
   final String image;
+  final String bid;
+  List<dynamic> images;
+
   final String businessname;
   final String businesstype;
   @override
@@ -59,6 +68,14 @@ class ProfileImagewidget extends StatelessWidget {
                 ),
               ],
             ),
+            Spacer(),
+            IconButton(
+                onPressed: () {
+                  Get.to(() => ImageGallery(
+                        bid: bid,
+                      ));
+                },
+                icon: Icon(LucideIcons.image))
           ]),
     );
   }

@@ -24,6 +24,7 @@ class ProductViewController extends GetxController {
       }
     } catch (e) {
       error.value = 'Failed to load products: $e';
+      print(error.value);
       products.value = [];
     } finally {
       isLoading.value = false;

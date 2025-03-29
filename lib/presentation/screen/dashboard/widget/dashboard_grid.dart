@@ -1,7 +1,10 @@
 import 'dart:ui';
 import 'package:brandsinfo/network/api_constants.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/widget/percent_widget.dart';
+import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BusinessCard extends StatelessWidget {
   final String name;
@@ -50,7 +53,7 @@ class BusinessCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        width: 120,
+                        width: Get.size.width / 4.5,
                         height: 90,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
@@ -71,7 +74,7 @@ class BusinessCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    CommonSizedBox.w5,
                     Expanded(
                       // 🔹 Wrap content inside Expanded
                       child: Padding(
@@ -81,7 +84,10 @@ class BusinessCard extends StatelessWidget {
                           children: [
                             Text(
                               name,
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              style: GoogleFonts.ubuntu(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                               overflow:
                                   TextOverflow.ellipsis, // Prevent overflow
                             ),

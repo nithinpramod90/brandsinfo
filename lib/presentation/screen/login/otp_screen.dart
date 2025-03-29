@@ -78,7 +78,11 @@ class OtpScreen extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Spacer(),
-                        TextButton(onPressed: () {}, child: Text("Resend OTP"))
+                        TextButton(
+                            onPressed: () {
+                              controller.resentotp(phno);
+                            },
+                            child: Text("Resend OTP"))
                       ],
                     ),
                     CommonSizedBox.h20,

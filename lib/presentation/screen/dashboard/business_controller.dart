@@ -12,6 +12,12 @@ class BusinessController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    fetchBusinesses(); // Refresh data when returning to the screen
+  }
+
   Future<void> fetchBusinesses() async {
     try {
       isLoading(true);
@@ -22,5 +28,9 @@ class BusinessController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+
+  void reload() {
+    fetchBusinesses();
   }
 }

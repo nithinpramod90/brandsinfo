@@ -8,8 +8,10 @@ class BusinessDetailAppBar extends StatelessWidget
   BusinessDetailAppBar({
     super.key,
     required this.images,
+    required this.bid,
   });
   List<dynamic> images;
+  final String bid;
   @override
   Size get preferredSize =>
       Size.fromHeight(120); // Adjusted height to match reference
@@ -60,7 +62,9 @@ class BusinessDetailAppBar extends StatelessWidget
           right: 16,
           child: GestureDetector(
             onTap: () {
-              Get.off(() => ImageGallery(images: images));
+              Get.off(() => ImageGallery(
+                    bid: bid,
+                  ));
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),

@@ -1,203 +1,216 @@
-import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:brandsinfo/widgets/sized_box.dart';
 
 class KeywordsWidget extends StatelessWidget {
   const KeywordsWidget({super.key, required this.sa, required this.keywords});
   final String sa;
   final List<dynamic> keywords;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: Get.width,
-      height: 220,
-      padding: EdgeInsets.all(0),
+      height: 200,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
+            color: Colors.black.withOpacity(0.25),
+            spreadRadius: 2,
+            blurRadius: 15,
+            offset: const Offset(0, 6),
           ),
         ],
-        color: Color(0xFF515050),
-        borderRadius: BorderRadius.circular(10),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF2D2D2D),
+            Color(0xFF1A1A1A),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Stack(
         children: [
+          // Background decorative elements
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  bottomLeft: Radius.circular(100),
+                ),
+                gradient: RadialGradient(
+                  center: Alignment.topRight,
+                  radius: 1,
+                  colors: [
+                    const Color(0xFFFF750C).withOpacity(0.1),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
           Positioned(
             top: 10,
             left: 10,
             child: SvgPicture.asset(
               'assets/svg/dots.svg',
-              width: 150,
-              height: 150,
+              width: 120,
+              height: 120,
               fit: BoxFit.cover,
+              color: Colors.white.withOpacity(0.05),
             ),
           ),
-          // Gradient overlay on the right side
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              width: Get.width,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF555555),
-                    Color(0xFF515050),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Text in the center
+
+          // Content
           Padding(
-            padding: const EdgeInsets.all(18),
+            padding: const EdgeInsets.fromLTRB(22, 22, 22, 18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Top section with search appearance count
                 RichText(
                   text: TextSpan(
-                    style: DefaultTextStyle.of(context)
-                        .style, // Inherit default text style
                     children: <TextSpan>[
                       TextSpan(
                         text: 'You appeared in ',
-                        style: GoogleFonts.ubuntu(
+                        style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ), // Regular text
-
-                      TextSpan(
-                        text: sa,
-                        style: GoogleFonts.ubuntu(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xffFF750C),
+                          color: Colors.white.withOpacity(0.85),
+                          letterSpacing: 0.2,
                         ),
                       ),
                       TextSpan(
-                        text: ' search results the \nlast week',
-                        style: GoogleFonts.ubuntu(
+                        text: sa,
+                        style: GoogleFonts.poppins(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFFF750C),
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' search results',
+                        style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white,
+                          color: Colors.white.withOpacity(0.85),
+                          letterSpacing: 0.2,
                         ),
-                      ), // Regular text
+                      ),
                     ],
                   ),
                 ),
-                CommonSizedBox.h20,
+                Text(
+                  'the last week',
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white.withOpacity(0.85),
+                    letterSpacing: 0.2,
+                  ),
+                ),
+
+                // Bottom section with keywords
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 8, bottom: 12),
+                      width: 40,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFF750C),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
                     Text(
-                      "Keywords that you appear in",
-                      style: GoogleFonts.ubuntu(
+                      "Top keywords for your brand",
+                      style: GoogleFonts.poppins(
                         fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white.withOpacity(0.6),
+                        letterSpacing: 0.2,
                       ),
                     ),
-                    CommonSizedBox.h10,
-                    Row(
-                      children: [
-                        Text(
-                          keywords[0] ?? '',
-                          style: GoogleFonts.ubuntu(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 10,
+                      children: keywords.take(3).map((keyword) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(5),
+                            // border: Border.all(
+                            //   color: const Color(0xFFFF750C).withOpacity(0.3),
+                            //   width: 1,
+                            // ),
                           ),
-                        ),
-                        CommonSizedBox.w10,
-                        Text(
-                          keywords[1] ?? '',
-                          style: GoogleFonts.ubuntu(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                          child: Text(
+                            keyword.toString(),
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        CommonSizedBox.w10,
-                        Text(
-                          keywords[2] ?? '',
-                          style: GoogleFonts.ubuntu(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    CommonSizedBox.h10,
-                    Text(
-                      "View all >",
-                      style: GoogleFonts.ubuntu(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                      ),
+                        );
+                      }).toList(),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
-          // Move "More" text and arrow to bottom right
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8, bottom: 8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Increase your visibility',
-                    style: GoogleFonts.ubuntu(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
-                  CommonSizedBox.h5,
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xffFF750C),
-                      minimumSize:
-                          Size.zero, // Make the button as small as possible
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5), // Adjust padding for size
-                      tapTargetSize: MaterialTapTargetSize
-                          .shrinkWrap, // Shrink the tap target
-                    ),
-                    child: Text(
-                      "Add More Keywords",
-                      style: GoogleFonts.ubuntu(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
+
+          // // Premium indicator
+          // Positioned(
+          //   top: 16,
+          //   right: 16,
+          //   child: Container(
+          //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+          //     decoration: BoxDecoration(
+          //       color: Colors.black.withOpacity(0.25),
+          //       borderRadius: BorderRadius.circular(12),
+          //       border: Border.all(
+          //         color: const Color(0xFFFF750C).withOpacity(0.3),
+          //         width: 1,
+          //       ),
+          //     ),
+          //     child: Row(
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: [
+          //         Icon(
+          //           Icons.auto_graph,
+          //           size: 12,
+          //           color: const Color(0xFFFF750C),
+          //         ),
+          //         const SizedBox(width: 4),
+          //         Text(
+          //           'INSIGHTS',
+          //           style: GoogleFonts.poppins(
+          //             fontSize: 10,
+          //             fontWeight: FontWeight.w600,
+          //             color: Colors.white.withOpacity(0.9),
+          //             letterSpacing: 0.5,
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

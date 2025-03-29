@@ -21,13 +21,43 @@ class SignupController extends GetxController {
         } else {
           Get.to(() => NameScreen(phone: phone));
         }
+        Get.snackbar(
+            duration: Duration(seconds: 25), "otp", response.toString());
       } else {
+        print(response);
         CommonSnackbar.show(
             isError: true,
             title: "Error",
             message: "Something Unexcepted Occured !");
       }
     } catch (e) {
+      print(e);
+      CommonSnackbar.show(
+          isError: true,
+          title: "Error",
+          message: "Something Unexcepted Occured !");
+    }
+  }
+
+  Future<void> resentotp(String phone) async {
+    print("accesed resent");
+    try {
+      print("object");
+      final response =
+          await apiService.post('/users/resendotp/', {'phone': phone});
+      print(response);
+      if (response.statusCode == 200) {
+        CommonSnackbar.show(
+            isError: false, title: "Sucess", message: "Otp Resent Sucessfully");
+      } else {
+        print(response);
+        CommonSnackbar.show(
+            isError: true,
+            title: "Error",
+            message: "Something Unexcepted Occured !");
+      }
+    } catch (e) {
+      print(e);
       CommonSnackbar.show(
           isError: true,
           title: "Error",
@@ -58,9 +88,7 @@ class SignupController extends GetxController {
         }
       } else {
         CommonSnackbar.show(
-            isError: true,
-            title: "Error",
-            message: "Something Unexpected occured !");
+            isError: true, title: "Error", message: "Invalid OTP !");
       }
     } catch (e) {
       CommonSnackbar.show(

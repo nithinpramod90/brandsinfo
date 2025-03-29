@@ -1,6 +1,10 @@
+import 'package:brandsinfo/presentation/screen/enquiries/enquires_screen.dart';
+import 'package:brandsinfo/presentation/screen/notification/notification_screen.dart';
 import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int notificationCount;
@@ -25,18 +29,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Row(
                   children: [
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     SecureStorage.clearSession();
-                    //     Get.offAll(() => LoginScreen());
-                    //   },
-                    //   child: CircleAvatar(
-                    //     backgroundColor: Color(0xffFF750C).shade400,
-                    //     radius: 20,
-                    //     backgroundImage:
-                    //         AssetImage('assets/images/avathar.png'),
-                    //   ),
-                    // ),
                     CommonSizedBox.w10,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,14 +49,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
-                      icon: Icon(CupertinoIcons.search),
+                      onPressed: () {
+                        Get.to(() => EnquiriesScreen());
+                      },
+                      icon: Icon(LucideIcons.messageCircle),
                     ),
                     Stack(
                       children: [
                         IconButton(
                           icon: Icon(CupertinoIcons.bell),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(() => NotificationScreen());
+                          },
                         ),
                         Positioned(
                           right: 0,

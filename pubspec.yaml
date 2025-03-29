@@ -28,8 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: ^3.4.1
   carousel_slider: ^5.0.0
   cupertino_icons: ^1.0.8
+  device_preview: ^1.2.0
   dio: ^5.8.0+1
   flutter:
     sdk: flutter
@@ -38,7 +40,6 @@ dependencies:
   get: ^4.6.6
   google_fonts: ^6.2.1
   image_picker: ^1.1.2
-  intl: ^0.20.2
   lucide_icons: ^0.257.0
   percent_indicator: ^4.2.4
   pinput: ^5.0.1

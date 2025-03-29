@@ -7,62 +7,55 @@ class ExpandBusiness extends StatelessWidget {
   const ExpandBusiness({super.key, required this.main, required this.sub});
   final String main;
   final String sub;
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
       height: MediaQuery.of(context).size.height / 12,
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Color(0xffFF750C),
-        ),
-        // color: Color(0xffFF750C).shade400, // Transparent orange background
-        borderRadius: BorderRadius.circular(8.0), // Curved borders
+        border: Border.all(color: const Color(0xffFF750C)),
+        borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  main,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                // CommonSizedBox.h5,
-                // Text(
-                //   sub,
-                //   style: Theme.of(context).textTheme.bodyMedium,
-                // ),
-              ],
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Text(
+              main,
+              style: Theme.of(context).textTheme.bodyLarge,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis, // Prevents text wrapping
             ),
-            Spacer(),
-            ElevatedButton(
+          ),
+          const SizedBox(width: 10),
+          SizedBox(
+            width: 120, // Compact button width
+            child: ElevatedButton(
               onPressed: () {
                 Get.to(() => InformationScreen());
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xffFF750C), // Black background
-                elevation: 5, // Elevation for the "raised" effect
-                padding: EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 12), // Padding
+                backgroundColor: const Color(0xffFF750C),
+                elevation: 5,
+                padding: const EdgeInsets.symmetric(
+                    vertical: 8), // Smaller button height
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), // Rounded corners
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: Text("Add Business",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500)),
+              child: const Text(
+                "Add Business",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14, // Smaller text for a compact look
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
-            CommonSizedBox.w10
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

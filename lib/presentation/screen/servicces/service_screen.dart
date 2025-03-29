@@ -51,7 +51,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Error: ${controller.error}',
+                    'Failed to fetch Services',
                     style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(height: 16),
@@ -147,7 +147,7 @@ class ServiceCard extends StatelessWidget {
           Stack(
             children: [
               AspectRatio(
-                aspectRatio: 16 / 9,
+                aspectRatio: 16 / 8,
                 child: Image.network(
                   '${ApiConstants.apiurl}${service.image}',
                   fit: BoxFit.cover,

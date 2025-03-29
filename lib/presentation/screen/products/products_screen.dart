@@ -39,7 +39,7 @@ class ProductScreen extends StatelessWidget {
         }
 
         if (productController.error.value.isNotEmpty) {
-          return Center(child: Text(productController.error.value));
+          return Center(child: Text("Failed to fetch Products"));
         }
 
         if (productController.products.isEmpty) {

@@ -4,8 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GlassmorphicDetailsContainer extends StatelessWidget {
-  const GlassmorphicDetailsContainer({Key? key}) : super(key: key);
-
+  const GlassmorphicDetailsContainer(
+      {super.key,
+      required this.phone,
+      required this.email,
+      required this.address,
+      required this.opens,
+      required this.close});
+  final String phone;
+  final String email;
+  final String address;
+  final String opens;
+  final String close;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -15,10 +25,10 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withOpacity(0.1),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withOpacity(0.1),
               width: 1.5,
             ),
             boxShadow: [
@@ -33,14 +43,22 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 12),
-              _buildInfoRow(Icons.phone, 'Phone', '9248796138'),
-              const SizedBox(height: 12),
-              _buildInfoRow(Icons.email, 'Email', 'starbucks@gmail.com'),
-              const SizedBox(height: 12),
-              _buildInfoRow(Icons.location_on, 'Address',
-                  'Starbucks 7th cross road HBR layout, near Anjanaya Swamy temple, Bengaluru, Karnataka, 809580'),
-              const SizedBox(height: 12),
+              // const SizedBox(height: 12),
+              _buildInfoRow(Icons.phone, 'Phone', phone),
+              Divider(
+                thickness: 0.5,
+              ),
+              // const SizedBox(height: 12),
+              _buildInfoRow(Icons.email, 'Email', email),
+              Divider(
+                thickness: 0.5,
+              ),
+              // const SizedBox(height: 12),
+              _buildInfoRow(Icons.location_on, 'Address', address),
+              Divider(
+                thickness: 0.5,
+              ),
+              // const SizedBox(height: 12),
               _buildTimingRow(),
             ],
           ),
@@ -55,7 +73,7 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: Colors.orange,
+          // color: Colors.orange,
           size: 14,
         ),
         const SizedBox(width: 12),
@@ -68,7 +86,7 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
                 style: GoogleFonts.ubuntu(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.orange,
+                  // color: Colors.orange,
                 ),
               ),
               const SizedBox(height: 4),
@@ -76,7 +94,8 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
                 value,
                 style: GoogleFonts.ubuntu(
                   fontSize: 11,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey.shade200,
                 ),
               ),
             ],
@@ -91,7 +110,7 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
       children: [
         const Icon(
           Icons.access_time,
-          color: Colors.orange,
+          // color: Colors.orange,
           size: 14,
         ),
         const SizedBox(width: 12),
@@ -106,12 +125,12 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
                     style: GoogleFonts.ubuntu(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange,
+                      // color: Colors.orange,
                     ),
                   ),
                   SizedBox(height: 4),
                   Text(
-                    '9:00 AM',
+                    opens,
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -127,12 +146,12 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
                     style: GoogleFonts.ubuntu(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange,
+                      // color: Colors.orange,
                     ),
                   ),
                   SizedBox(height: 4),
                   Text(
-                    '9:00 PM',
+                    close,
                     style: TextStyle(
                       fontSize: 12,
                     ),

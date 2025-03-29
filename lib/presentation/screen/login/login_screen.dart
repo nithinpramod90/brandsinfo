@@ -5,6 +5,7 @@ import 'package:brandsinfo/presentation/widgets/circular_image_widget.dart';
 import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -29,7 +30,11 @@ class LoginScreen extends StatelessWidget {
                     CommonSizedBox.h25,
                     Text(
                       'Login to Your Account',
-                      style: Theme.of(context).textTheme.headlineMedium,
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                     CommonSizedBox.h25,
                     Text(
@@ -42,16 +47,26 @@ class LoginScreen extends StatelessWidget {
                       maxLength: 10,
                       controller: phoneController,
                       keyboardType: TextInputType.phone,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
                       decoration: InputDecoration(
                         labelText: 'Enter your phone number',
+                        labelStyle: GoogleFonts.ubuntu(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide:
                               const BorderSide(color: Color(0xffFF750C)),
                         ),
                         prefixText: '+91  ',
-                        prefixStyle: Theme.of(context).textTheme.headlineSmall,
+                        prefixStyle: GoogleFonts.ubuntu(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                     CommonSizedBox.h20,

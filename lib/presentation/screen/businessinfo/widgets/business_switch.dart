@@ -13,65 +13,64 @@ class BusinessSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton(
-                onPressed: () => onToggle(true),
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  overlayColor: Colors.transparent,
-                ),
-                child: Text(
-                  "Business Analytics",
-                  style: GoogleFonts.ubuntu(
-                    fontSize: isAnalyticsSelected ? 17 : 16,
-                    fontWeight: FontWeight.w600,
-                    color: isAnalyticsSelected
-                        ? Color(0xffFF750C)
-                        : Theme.of(context).brightness == Brightness.dark
-                            ? Colors.indigo.shade50
-                            : Colors.black54,
-                  ),
-                ),
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              decoration: BoxDecoration(
+                color: Colors.orange,
+                borderRadius: BorderRadius.circular(12),
               ),
-              const Spacer(),
-              TextButton(
-                onPressed: () => onToggle(false),
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  overlayColor: Colors.transparent,
-                ),
-                child: Text(
-                  "Business Details",
-                  style: GoogleFonts.ubuntu(
-                    fontSize: isAnalyticsSelected ? 16 : 17,
-                    fontWeight: FontWeight.w600,
-                    color: !isAnalyticsSelected
-                        ? Color(0xffFF750C)
-                        : Theme.of(context).brightness == Brightness.dark
-                            ? Colors.indigo.shade50
-                            : Colors.black54,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildOption(
+                    label: "Analytics",
+                    isSelected: isAnalyticsSelected,
+                    onTap: () => onToggle(true),
                   ),
-                ),
+                  const SizedBox(width: 12),
+                  _buildOption(
+                    label: "Details",
+                    isSelected: !isAnalyticsSelected,
+                    onTap: () => onToggle(false),
+                  ),
+                ],
               ),
-            ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOption({
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        decoration: BoxDecoration(
+          color: isSelected ? Color(0xFF1E1E1E) : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.ubuntu(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
           ),
         ),
-        const Divider(
-          height: 0,
-          color: Color.fromARGB(255, 207, 207, 207),
-        ),
-      ],
+      ),
     );
   }
 }

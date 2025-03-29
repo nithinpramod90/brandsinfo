@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:brandsinfo/network/api_constants.dart';
 import 'package:brandsinfo/utils/secure_storage.dart';
 import 'package:dio/dio.dart';
@@ -13,17 +12,10 @@ class ApiService {
 
   Future<dynamic> get(String endpoint) async {
     try {
-      // Retrieve the session ID (token) from secure storage
       String? sessionId = await SecureStorage.getSessionId();
-
-      // Add the Authorization header
       final response = await _dio.get(
         endpoint,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer $sessionId",
-          },
-        ),
+        options: Options(headers: {"Authorization": "Bearer $sessionId"}),
       );
       print('apiresponse:${response.data}');
       return response.data;
@@ -48,15 +40,12 @@ class ApiService {
       }
 
       FormData formData = FormData();
-
-      // Add text fields
       data.forEach((key, value) {
         if (value is String || value is int || value is double) {
           formData.fields.add(MapEntry(key, value.toString()));
         }
       });
 
-      // Attach images
       if (data.containsKey("images[]") && data["images[]"] is List<File>) {
         for (File file in data["images[]"]) {
           formData.files.add(MapEntry(
@@ -80,12 +69,30 @@ class ApiService {
     }
   }
 
+  Future<Response> patch(String endpoint, Map<String, dynamic> data) async {
+    try {
+      String? sessionId = await SecureStorage.getSessionId();
+      final response = await _dio.patch(
+        endpoint,
+        data: data,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $sessionId",
+            "Content-Type": "application/json",
+          },
+        ),
+      );
+
+      print('Patch response: ${response.data}');
+      return response;
+    } catch (e) {
+      throw Exception("Error: $e");
+    }
+  }
+
   Future<Response> delete(String endpoint, {Map<String, dynamic>? data}) async {
     try {
-      // Retrieve the session ID (token) from secure storage
       String? sessionId = await SecureStorage.getSessionId();
-
-      // Add the Authorization header
       final response = await _dio.delete(
         endpoint,
         data: data,
@@ -96,9 +103,30 @@ class ApiService {
           },
         ),
       );
-      print(response.statusCode);
-
       print('Delete response: ${response.data}');
+      return response;
+    } catch (e) {
+      throw Exception("Error: $e");
+    }
+  }
+}
+
+extension ApiServiceExtension on ApiService {
+  Future<Response> patchWithFormData(String endpoint, FormData formData) async {
+    try {
+      String? sessionId = await SecureStorage.getSessionId();
+      final response = await _dio.patch(
+        endpoint,
+        data: formData,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $sessionId",
+            "Content-Type": "multipart/form-data",
+          },
+        ),
+      );
+
+      print('Patch with FormData response: ${response.data}');
       return response;
     } catch (e) {
       throw Exception("Error: $e");

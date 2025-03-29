@@ -1,3 +1,4 @@
+import 'package:brandsinfo/presentation/screen/Add%20offers/addoffer_screen.dart';
 import 'package:brandsinfo/presentation/screen/offers/offer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,18 @@ class OffersScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Available Offers'),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () async {
+                final shouldRefresh = await Get.to(() => AddOfferScreen(
+                      businessId: bid,
+                    ));
+                if (shouldRefresh == true) {
+                  controller.fetchOffers();
+                }
+              },
+              icon: Icon(Icons.add)),
+        ],
         elevation: 0,
       ),
       body: Obx(() {
