@@ -13,7 +13,6 @@ class KeywordsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width,
-      height: 200,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -127,7 +126,7 @@ class KeywordsWidget extends StatelessWidget {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 8, bottom: 12),
-                      width: 40,
+                      width: 0,
                       height: 3,
                       decoration: BoxDecoration(
                         color: const Color(0xFFFF750C),
@@ -147,23 +146,26 @@ class KeywordsWidget extends StatelessWidget {
                     Wrap(
                       spacing: 10,
                       children: keywords.take(3).map((keyword) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.08),
-                            borderRadius: BorderRadius.circular(5),
-                            // border: Border.all(
-                            //   color: const Color(0xFFFF750C).withOpacity(0.3),
-                            //   width: 1,
-                            // ),
-                          ),
-                          child: Text(
-                            keyword.toString(),
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12, top: 12),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(5),
+                              // border: Border.all(
+                              //   color: const Color(0xFFFF750C).withOpacity(0.3),
+                              //   width: 1,
+                              // ),
+                            ),
+                            child: Text(
+                              keyword.toString(),
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         );

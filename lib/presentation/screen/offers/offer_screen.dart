@@ -64,6 +64,7 @@ class OffersScreen extends StatelessWidget {
                 controller: controller,
                 onDelete: () =>
                     _showDeleteConfirmation(context, controller, index),
+                onEdit: () => controller.editOffer(controller.offers[index]),
               ),
             ),
           );
@@ -86,7 +87,6 @@ class OffersScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              // Here you would call a method to delete the offer
               controller.deleteOffer(controller.offers[index].id);
               Get.back();
             },
@@ -102,12 +102,14 @@ class OfferCard extends StatelessWidget {
   final Offer offer;
   final OffersController controller;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
   const OfferCard({
     Key? key,
     required this.offer,
     required this.controller,
     required this.onDelete,
+    required this.onEdit,
   }) : super(key: key);
 
   @override
@@ -163,18 +165,28 @@ class OfferCard extends StatelessWidget {
                       const SizedBox(height: 8),
                       _buildInfoRow(Icons.calendar_today,
                           'Until: ${DateFormat('dd MMM yyyy').format(DateTime.parse(offer.validUpto))}'),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton.icon(
+                            onPressed: onEdit,
+                            icon: Icon(Icons.edit, color: Colors.blue),
+                            label: Text('Edit',
+                                style: TextStyle(color: Colors.blue)),
+                          ),
+                          TextButton.icon(
+                            onPressed: onDelete,
+                            icon: Icon(Icons.delete_outline, color: Colors.red),
+                            label: Text('Delete',
+                                style: TextStyle(color: Colors.red)),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
               ],
-            ),
-          ),
-          Positioned(
-            top: 8,
-            right: 8,
-            child: IconButton(
-              icon: Icon(Icons.delete_outline, color: Colors.white),
-              onPressed: onDelete,
             ),
           ),
         ],

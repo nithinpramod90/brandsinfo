@@ -1,4 +1,5 @@
 import 'package:brandsinfo/network/api_service.dart';
+import 'package:brandsinfo/presentation/screen/edit%20offer/editoffer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -80,12 +81,57 @@ class OffersController extends GetxController {
   Future<void> deleteOffer(int offerId) async {
     try {
       // Make API call to delete offer
-      final respons =
+      final response =
           await _apiService.delete('/users/offers/delete/$offerId/');
-      print(respons.statusCode);
+      if (response.statusCode == 200) {
+        Get.snackbar(
+          'Success',
+          'Offer deleted successfully',
+          backgroundColor: Colors.green.withOpacity(0.1),
+          colorText: Colors.green,
+        );
+      }
       fetchOffers();
     } catch (e) {
       print(e);
+      Get.snackbar(
+        'Error',
+        'Failed to delete offer',
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
+    }
+  }
+
+  Future<void> editOffer(Offer offer) async {
+    try {
+      // Convert Offer to a map for editing
+      Map<String, dynamic> offerData = {
+        'id': offer.id,
+        'business': offer.business,
+        'offer': offer.offer,
+        'is_percent': offer.isPercent,
+        'is_flat': offer.isFlat,
+        'minimum_bill_amount': offer.minimumBillAmount,
+        'valid_upto': offer.validUpto,
+      };
+
+      // Navigate to edit screen and wait for result
+      final shouldRefresh =
+          await Get.to(() => EditOfferScreen(offerData: offerData));
+
+      // Refresh offers list if changes were made
+      if (shouldRefresh == true) {
+        fetchOffers();
+      }
+    } catch (e) {
+      print(e);
+      Get.snackbar(
+        'Error',
+        'Failed to edit offer',
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
     }
   }
 

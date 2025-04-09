@@ -1,5 +1,6 @@
 import 'package:brandsinfo/network/api_constants.dart';
 import 'package:brandsinfo/presentation/screen/add_product/add_product_screen.dart';
+import 'package:brandsinfo/presentation/screen/edit%20product/editproduct_screen.dart';
 import 'package:brandsinfo/presentation/screen/products/productview_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,7 +70,7 @@ class ProductScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Product Image with Delete Button
+                  // Product Image with Delete and Edit Buttons
                   Expanded(
                     flex: 3,
                     child: Stack(
@@ -94,52 +95,80 @@ class ProductScreen extends StatelessWidget {
                                       Icon(Icons.image_not_supported, size: 40))
                               : null,
                         ),
-                        // Delete Button
+                        // Action buttons row
                         Positioned(
                           top: 8,
                           right: 8,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.7),
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {
-                                // Show delete confirmation dialog
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Delete Product'),
-                                      content: Text(
-                                          'Are you sure you want to delete ${product['name']}?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                          child: const Text('CANCEL'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            // Pass the ID directly without type casting
-                                            productController
-                                                .deleteProduct(product['id']);
-                                          },
-                                          child: const Text('DELETE',
-                                              style:
-                                                  TextStyle(color: Colors.red)),
-                                        ),
-                                      ],
+                          child: Row(
+                            children: [
+                              // Edit Button
+                              Container(
+                                margin: const EdgeInsets.only(right: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(Icons.edit,
+                                      color: Colors.blue),
+                                  onPressed: () {
+                                    // Navigate to edit product screen
+                                    Get.to(() => EditProductScreen(
+                                          product: product,
+                                          bid: bid,
+                                        ));
+                                  },
+                                  iconSize: 20,
+                                  padding: const EdgeInsets.all(4),
+                                  constraints: const BoxConstraints(),
+                                ),
+                              ),
+                              // Delete Button
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.7),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.red),
+                                  onPressed: () {
+                                    // Show delete confirmation dialog
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Delete Product'),
+                                          content: Text(
+                                              'Are you sure you want to delete ${product['name']}?'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                              child: const Text('CANCEL'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                // Pass the ID directly without type casting
+                                                productController.deleteProduct(
+                                                    product['id']);
+                                              },
+                                              child: const Text('DELETE',
+                                                  style: TextStyle(
+                                                      color: Colors.red)),
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                              },
-                              iconSize: 20,
-                              padding: const EdgeInsets.all(4),
-                              constraints: const BoxConstraints(),
-                            ),
+                                  iconSize: 20,
+                                  padding: const EdgeInsets.all(4),
+                                  constraints: const BoxConstraints(),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

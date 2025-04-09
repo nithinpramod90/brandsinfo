@@ -33,6 +33,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   device_preview: ^1.2.0
   dio: ^5.8.0+1
+  fl_chart: ^0.70.2
   flutter:
     sdk: flutter
   flutter_secure_storage: ^9.2.4

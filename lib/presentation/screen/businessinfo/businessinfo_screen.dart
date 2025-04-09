@@ -79,6 +79,7 @@ class _BusinessinfoScreenState extends State<BusinessinfoScreen> {
                                 ? Column(
                                     children: [
                                       EnhancedEmeraldBlurCard(
+                                        bid: business['id'].toString() ?? "",
                                         title: "Total Visits",
                                         value: business['no_of_views']
                                                 ?.toString() ??
@@ -92,7 +93,7 @@ class _BusinessinfoScreenState extends State<BusinessinfoScreen> {
                                       ),
                                       CommonSizedBox.h20,
                                       KeywordsWidget(
-                                        sa: business['sa_rate']?.toString() ??
+                                        sa: analytics['searched']?.toString() ??
                                             'N/A',
                                         keywords: (analytics['keywords'] ?? [])
                                             as List<dynamic>,

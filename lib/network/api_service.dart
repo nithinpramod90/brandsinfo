@@ -24,6 +24,57 @@ class ApiService {
     }
   }
 
+  Future<dynamic> postWithFormData(String endpoint, FormData formData) async {
+    try {
+      // Print for debugging
+      print('FormData fields: ${formData.fields}');
+      print('FormData files: ${formData.files.length} files');
+
+      final response = await _dio.post(
+        '${ApiConstants.apiurl}$endpoint',
+        data: formData,
+        options: Options(
+          headers: await _getHeaders(includeContentType: false),
+          // Add progress tracking if needed
+          // onSendProgress: (int stokenent, int total) {
+          //   print('Sent: $sent / Total: $total');
+          // },
+        ),
+      );
+      return response.data;
+    } catch (e) {
+      _handleError(e);
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> _getHeaders(
+      {bool includeContentType = true}) async {
+    String? sessionId = await SecureStorage.getSessionId();
+
+    // Get your authentication token or other headers
+    final Map<String, dynamic> headers = {
+      "Authorization": "Bearer $sessionId",
+    };
+
+    if (includeContentType) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    return headers;
+  }
+
+  // Error handling method
+  void _handleError(dynamic error) {
+    if (error is DioException) {
+      print('Dio error: ${error.message}');
+      print('Response data: ${error.response?.data}');
+      print('Response status code: ${error.response?.statusCode}');
+    } else {
+      print('Unexpected error: $error');
+    }
+  }
+
   Future<Response> post(String endpoint, Map<String, dynamic> data,
       {bool useSession = false, bool isMultipart = false}) async {
     try {

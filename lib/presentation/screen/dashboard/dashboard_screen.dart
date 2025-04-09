@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Obx(() {
           if (controller.businessResponse.value == null) {
-            return AppBar(title: Text("")); // Default while loading
+            return AppBar(title: const Text("")); // Default while loading
           }
           final userProfile = controller.businessResponse.value!.userProfile;
           return CustomAppBar(
@@ -77,47 +77,51 @@ class HomeScreen extends StatelessWidget {
           );
         }
 
-        return CustomScrollView(
-          physics: const ClampingScrollPhysics(),
-          cacheExtent: 1000, // Preloads more items
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  children: [
-                    const ExpandBusiness(
-                      main: 'Expand Your Business',
-                      sub: 'Add another location or venture.',
-                    ),
-                    CommonSizedBox.h20,
-                    Row(
-                      children: const [
-                        Text(
-                          "Active Businesses",
-                          textAlign: TextAlign.start,
-                        ),
-                        Spacer(),
-                        Icon(CupertinoIcons.forward),
-                      ],
-                    ),
-                  ],
-                ),
+        // Replace CustomScrollView with a more optimized ListView implementation
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                children: [
+                  const ExpandBusiness(
+                    main: 'Expand Your Business',
+                    sub: 'Add another location or venture.',
+                  ),
+                  CommonSizedBox.h20,
+                  Row(
+                    children: const [
+                      Text(
+                        "Active Businesses",
+                        textAlign: TextAlign.start,
+                      ),
+                      Spacer(),
+                      Icon(CupertinoIcons.forward),
+                    ],
+                  ),
+                ],
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
+            Expanded(
+              child: ListView.builder(
+                // More efficient for scrolling performance
+                physics: const AlwaysScrollableScrollPhysics(),
+                addAutomaticKeepAlives: false, // Remove unnecessary keep-alives
+                addRepaintBoundaries: true,
+                itemCount: businesses.length,
+                itemBuilder: (context, index) {
                   final business = businesses[index];
 
-                  return RepaintBoundary(
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 4.0),
                     child: GestureDetector(
                       onTap: () {
                         infocontroller
                             .setBidAndNavigate(business.id.toString());
                       },
                       child: BusinessCard(
-                        score: business.score,
+                        score: business.score ?? "",
                         name: business.name,
                         locality:
                             ("${business.locality}, ${business.city ?? ''}"),
@@ -127,7 +131,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                   );
                 },
-                childCount: businesses.length,
               ),
             ),
           ],
