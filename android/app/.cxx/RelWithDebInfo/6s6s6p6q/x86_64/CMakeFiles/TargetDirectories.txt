@@ -1,0 +1,2 @@
+/home/hyper/Documents/bi/brandsinfo/android/app/.cxx/RelWithDebInfo/6s6s6p6q/x86_64/CMakeFiles/edit_cache.dir
+/home/hyper/Documents/bi/brandsinfo/android/app/.cxx/RelWithDebInfo/6s6s6p6q/x86_64/CMakeFiles/rebuild_cache.dir

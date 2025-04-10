@@ -4,12 +4,13 @@ import 'package:brandsinfo/presentation/screen/login/name_screen.dart';
 import 'package:brandsinfo/presentation/screen/login/otp_screen.dart';
 import 'package:brandsinfo/utils/secure_storage.dart';
 import 'package:brandsinfo/widgets/common_snackbar.dart';
+import 'package:brandsinfo/widgets/loader.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
   final ApiService apiService = ApiService();
 
-  Future<void> signup(String phone) async {
+  Future<void> signup(String phone, String verificationid) async {
     try {
       final response =
           await apiService.post('/users/signup1/', {'phone': phone});
@@ -17,14 +18,23 @@ class SignupController extends GetxController {
       if (response.statusCode == 200) {
         final responseData = response.data;
         if (responseData['exists'] == true) {
-          Get.to(() => OtpScreen(phno: phone));
+          Loader.hide();
+
+          print("object");
+          Get.to(() => OtpScreen(
+                phno: phone,
+                verificationId: verificationid,
+              ));
         } else {
-          Get.to(() => NameScreen(phone: phone));
+          Loader.hide();
+
+          Get.to(() => NameScreen(
+                phone: phone,
+                verficationid: verificationid,
+              ));
         }
-        Get.snackbar(
-            duration: Duration(seconds: 25), "otp", response.toString());
       } else {
-        print(response);
+        print(response.statusCode);
         CommonSnackbar.show(
             isError: true,
             title: "Error",
@@ -36,6 +46,8 @@ class SignupController extends GetxController {
           isError: true,
           title: "Error",
           message: "Something Unexcepted Occured !");
+    } finally {
+      Loader.hide();
     }
   }
 
@@ -65,11 +77,12 @@ class SignupController extends GetxController {
     }
   }
 
-  Future<void> verifyOtp(String phone, String otp) async {
+  Future<void> verifyOtp(String phone, String otp, String idtoken) async {
     try {
       final response = await apiService.post('/users/verifyotp/', {
         'phone': phone,
         'otp': otp,
+        'idToken': idtoken,
       });
 
       print("Response: ${response.data}"); // Debugging line
@@ -98,7 +111,8 @@ class SignupController extends GetxController {
     }
   }
 
-  Future<void> saveName(String phone, String name) async {
+  Future<void> saveName(
+      String phone, String name, String verificationid) async {
     try {
       final response = await apiService.post('/users/signup2/', {
         'phone': phone,
@@ -108,7 +122,10 @@ class SignupController extends GetxController {
       if (response.statusCode == 200) {
         final responseData = response.data;
         if (responseData['message'] == "Name Saved") {
-          Get.to(() => OtpScreen(phno: phone));
+          Get.to(() => OtpScreen(
+                phno: phone,
+                verificationId: verificationid,
+              ));
         } else {
           CommonSnackbar.show(
               isError: true,

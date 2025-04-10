@@ -1,3 +1,4 @@
+import 'package:brandsinfo/presentation/screen/login/firebase_auth.dart';
 import 'package:brandsinfo/presentation/screen/login/signup_controller.dart';
 import 'package:brandsinfo/presentation/widgets/circular_image_widget.dart';
 import 'package:brandsinfo/theme/pinput_theme.dart';
@@ -7,12 +8,14 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key, required this.phno});
+  OtpScreen({super.key, required this.phno, required this.verificationId});
   final String phno;
-  final SignupController controller = SignupController();
+  final String verificationId;
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController otpcontroller = TextEditingController();
+    final AuthService _authService = AuthService();
 
     return Scaffold(
       body: Center(
@@ -79,8 +82,8 @@ class OtpScreen extends StatelessWidget {
                         ),
                         Spacer(),
                         TextButton(
-                            onPressed: () {
-                              controller.resentotp(phno);
+                            onPressed: () async {
+                              await _authService.resendOtp(phno, context);
                             },
                             child: Text("Resend OTP"))
                       ],
@@ -90,7 +93,14 @@ class OtpScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          controller.verifyOtp(phno, otpcontroller.text);
+                          String otp = otpcontroller.text;
+                          if (otp.length == 6) {
+                            _authService.verifyOtp(
+                                otp, verificationId, context, phno);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Enter a valid OTP")));
+                          }
                         },
                         child: Text('LOGIN',
                             style: TextStyle(

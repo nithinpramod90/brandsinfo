@@ -1,7 +1,10 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:brandsinfo/presentation/screen/login/firebase_auth.dart';
 import 'package:brandsinfo/presentation/screen/login/signup_controller.dart';
 import 'package:brandsinfo/presentation/widgets/circular_image_widget.dart';
+import 'package:brandsinfo/widgets/common_snackbar.dart';
+import 'package:brandsinfo/widgets/loader.dart';
 import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +12,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
-  final SignupController controller = SignupController();
   TextEditingController phoneController = TextEditingController();
+  final AuthService _authService = AuthService();
+  final SignupController controller = SignupController();
 
   @override
   Widget build(BuildContext context) {
@@ -133,8 +137,19 @@ class LoginScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                         ),
-                        onPressed: () {
-                          controller.signup(phoneController.text);
+                        onPressed: () async {
+                          if (phoneController.text != "") {
+                            Loader.show();
+                            // controller.signup(phoneController.text);
+
+                            await _authService.sendOtp(
+                                phoneController.text, context);
+                          } else {
+                            CommonSnackbar.show(
+                                title: "Info",
+                                message: "Please enter  Phone Number",
+                                isError: false);
+                          }
                         },
                         child: Text('LOGIN',
                             style: TextStyle(

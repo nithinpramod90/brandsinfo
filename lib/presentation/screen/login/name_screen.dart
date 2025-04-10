@@ -5,8 +5,9 @@ import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/material.dart';
 
 class NameScreen extends StatelessWidget {
-  NameScreen({super.key, required this.phone});
+  NameScreen({super.key, required this.phone, required this.verficationid});
   final String phone;
+  final String verficationid;
   final SignupController controller = SignupController();
   final TextEditingController namecontroller = TextEditingController();
   @override
@@ -62,7 +63,8 @@ class NameScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          controller.saveName(phone, namecontroller.text);
+                          controller.saveName(
+                              phone, namecontroller.text, verficationid);
                         },
                         child: Text(
                           'Continue',
