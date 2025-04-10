@@ -81,7 +81,7 @@ class SpecificCatScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: isSelected
-                                    ? Color(0xffFF750C)
+                                    ? Color.fromARGB(255, 255, 255, 255)
                                     : Theme.of(context).brightness ==
                                             Brightness.dark
                                         ? Colors.white // Dark mode color

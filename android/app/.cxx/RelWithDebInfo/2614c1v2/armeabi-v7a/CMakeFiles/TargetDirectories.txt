@@ -1,0 +1,2 @@
+/home/hyper/Documents/bi/brandsinfo/android/app/.cxx/RelWithDebInfo/2614c1v2/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/hyper/Documents/bi/brandsinfo/android/app/.cxx/RelWithDebInfo/2614c1v2/armeabi-v7a/CMakeFiles/rebuild_cache.dir

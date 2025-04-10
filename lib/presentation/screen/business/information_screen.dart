@@ -1,13 +1,16 @@
 import 'package:brandsinfo/network/api_constants.dart';
 import 'package:brandsinfo/network/api_service.dart';
 import 'package:brandsinfo/presentation/screen/business/information_controller.dart';
+import 'package:brandsinfo/presentation/screen/business/widgets/locality_popup.dart';
 import 'package:brandsinfo/presentation/screen/business/widgets/pincode_fetch.dart';
+import 'package:brandsinfo/widgets/common_snackbar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:brandsinfo/presentation/screen/business/widgets/custom_dropdown.dart';
 import 'package:brandsinfo/presentation/widgets/custom_textfield.dart';
 import 'package:brandsinfo/presentation/widgets/circular_image_widget.dart';
 import 'package:brandsinfo/widgets/sized_box.dart';
+import 'package:get/get.dart';
 
 class InformationScreen extends StatefulWidget {
   const InformationScreen({super.key});
@@ -22,6 +25,8 @@ class InformationScreenState extends State<InformationScreen> {
   final TextEditingController stateController = TextEditingController();
   final TextEditingController districtController = TextEditingController();
   final TextEditingController whatsappController = TextEditingController();
+  final TextEditingController addresscontroller = TextEditingController();
+
   String? selectedBusinessType = "Products & Services";
   String? selectedLocality;
   int? selectedLocalityId; // Change type to int
@@ -41,6 +46,7 @@ class InformationScreenState extends State<InformationScreen> {
         stateController.text,
         whatsappController.text,
         selectedBusinessType ?? "",
+        addresscontroller.text,
       );
       print("Business Name: ${businessNameController.text}");
       print("Business Type: $selectedBusinessType");
@@ -104,6 +110,14 @@ class InformationScreenState extends State<InformationScreen> {
                         onChanged: fetchAndSetCityState,
                       ),
                       CommonSizedBox.h10,
+                      CustomTextField(
+                        controller: addresscontroller,
+                        hintText: "Address Line",
+                        keyboardType: TextInputType.streetAddress,
+                        validator: (value) =>
+                            value!.isEmpty ? 'Address is required' : null,
+                      ),
+                      CommonSizedBox.h10,
                       Row(
                         children: [
                           Expanded(
@@ -126,44 +140,101 @@ class InformationScreenState extends State<InformationScreen> {
                           ),
                         ],
                       ),
-                      CommonSizedBox.h10,
-                      DropdownButtonFormField<String>(
-                        value: selectedLocality,
-                        items: localities.map((String locality) {
-                          return DropdownMenuItem<String>(
-                            value: locality,
-                            child: Text(locality),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedLocality = value;
+                      CommonSizedBox.h10, // In your main widget file
+                      GestureDetector(
+                        onTap: () {
+                          selectedLocality == null
+                              ? CommonSnackbar.show(
+                                  title: "Info",
+                                  message: "Please enter pincode",
+                                  isError: false)
+                              : showDialog(
+                                  context: context,
+                                  builder: (context) => LocalityPopup(
+                                    localities: localities,
+                                    selectedLocality: selectedLocality,
+                                    onSelected: (selectedLocality) {
+                                      setState(() {
+                                        this.selectedLocality =
+                                            selectedLocality;
 
-                            // Ensure we find the locality correctly
-                            final selectedItem = localityData.firstWhere(
-                              (element) =>
-                                  element['locality_name']
-                                      .toString()
-                                      .trim()
-                                      .toLowerCase() ==
-                                  value!.trim().toLowerCase(),
-                              orElse: () => {
-                                'id': null
-                              }, // Prevents crash if no match is found
-                            );
-
-                            selectedLocalityId = selectedItem['id'] as int?;
-                            print("Updated Locality ID: $selectedLocalityId");
-                          });
+                                        // Find corresponding ID from data
+                                        final selectedItem =
+                                            localityData.firstWhere(
+                                          (element) =>
+                                              element['locality_name'] ==
+                                              selectedLocality,
+                                          orElse: () => {'id': null},
+                                        );
+                                        selectedLocalityId =
+                                            selectedItem['id'] as int?;
+                                        print(
+                                            "Updated Locality ID: $selectedLocalityId");
+                                      });
+                                    },
+                                  ),
+                                );
                         },
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
+                        child: Container(
+                          width: Get.size.width,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 12),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white // Dark mode color
+                                  : Colors.black,
+                            ),
                             borderRadius: BorderRadius.circular(12.0),
-                            borderSide:
-                                const BorderSide(color: Color(0xffFF750C)),
+                          ),
+                          child: Text(
+                            selectedLocality ?? 'Select Locality',
+                            style: TextStyle(
+                              color: selectedLocality == null
+                                  ? Colors.white
+                                  : Colors.white,
+                            ),
                           ),
                         ),
                       ),
+                      // DropdownButtonFormField<String>(
+                      //   value: selectedLocality,
+                      //   items: localities.map((String locality) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: locality,
+                      //       child: Text(locality),
+                      //     );
+                      //   }).toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectedLocality = value;
+
+                      //       // Ensure we find the locality correctly
+                      //       final selectedItem = localityData.firstWhere(
+                      //         (element) =>
+                      //             element['locality_name']
+                      //                 .toString()
+                      //                 .trim()
+                      //                 .toLowerCase() ==
+                      //             value!.trim().toLowerCase(),
+                      //         orElse: () => {
+                      //           'id': null
+                      //         }, // Prevents crash if no match is found
+                      //       );
+
+                      //       selectedLocalityId = selectedItem['id'] as int?;
+                      //       print("Updated Locality ID: $selectedLocalityId");
+                      //     });
+                      //   },
+                      //   decoration: InputDecoration(
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(12.0),
+                      //       borderSide:
+                      //           const BorderSide(color: Color(0xffFF750C)),
+                      //     ),
+                      //   ),
+                      // ),
                       CommonSizedBox.h10,
                       CustomTextField(
                         controller: whatsappController,

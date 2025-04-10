@@ -34,7 +34,7 @@ class ApiService {
         '${ApiConstants.apiurl}$endpoint',
         data: formData,
         options: Options(
-          headers: await _getHeaders(includeContentType: false),
+          headers: await getHeaders(includeContentType: false),
           // Add progress tracking if needed
           // onSendProgress: (int stokenent, int total) {
           //   print('Sent: $sent / Total: $total');
@@ -48,12 +48,12 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> _getHeaders(
+  Future<Map<String, String>> getHeaders(
       {bool includeContentType = true}) async {
     String? sessionId = await SecureStorage.getSessionId();
 
     // Get your authentication token or other headers
-    final Map<String, dynamic> headers = {
+    final Map<String, String> headers = {
       "Authorization": "Bearer $sessionId",
     };
 

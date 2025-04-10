@@ -1,5 +1,7 @@
 import 'package:brandsinfo/network/api_constants.dart';
 import 'package:brandsinfo/presentation/screen/add_service/add_service_screen.dart';
+import 'package:brandsinfo/presentation/screen/edit_service/editservice_screen.dart';
+import 'package:brandsinfo/widgets/sized_box.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'service_controller.dart';
@@ -110,29 +112,40 @@ class _ServiceScreenState extends State<ServiceScreen> {
                       controller.deleteService(service.id);
                     }
                   },
+                  onEdit: () async {
+                    // Navigate to edit service screen
+                    final result = await Get.to(
+                      () => EditServiceScreen(
+                        serviceId: service.id,
+                        bid: widget.bid,
+                      ),
+                    );
+
+                    // If changes were made, refresh the services list
+                    if (result == true) {
+                      controller.fetchServices();
+                    }
+                  },
                 );
               },
             ),
           );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: controller.fetchServices,
-      //   child: const Icon(Icons.refresh),
-      // ),
     );
   }
 }
 
-// Service Card Widget
 class ServiceCard extends StatelessWidget {
   final Service service;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
   const ServiceCard({
     Key? key,
     required this.service,
     required this.onDelete,
+    required this.onEdit,
   }) : super(key: key);
 
   @override
@@ -156,18 +169,36 @@ class ServiceCard extends StatelessWidget {
               Positioned(
                 top: 8,
                 right: 8,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: IconButton(
-                    icon:
-                        const Icon(Icons.delete, color: Colors.white, size: 20),
-                    padding: const EdgeInsets.all(4),
-                    constraints: const BoxConstraints(),
-                    onPressed: onDelete,
-                  ),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.edit,
+                            color: Colors.white, size: 20),
+                        padding: const EdgeInsets.all(4),
+                        constraints: const BoxConstraints(),
+                        onPressed: onEdit,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.delete,
+                            color: Colors.white, size: 20),
+                        padding: const EdgeInsets.all(4),
+                        constraints: const BoxConstraints(),
+                        onPressed: onDelete,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -188,24 +219,25 @@ class ServiceCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(4),
+                  Text(
+                    service.cat,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.blue[700],
                     ),
-                    child: Text(
-                      service.cat,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.blue[700],
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const Spacer(),
+                  CommonSizedBox.h10,
+                  Text(
+                    service.description,
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

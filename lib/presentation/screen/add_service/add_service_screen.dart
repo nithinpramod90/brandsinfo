@@ -55,25 +55,14 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
   List<File> selectedImages = [];
   late ImagePickerWidget imagePickerWidget;
 
-  void _addService() {
+  void _addService() async {
+    // Make the method async
     if (_formKey.currentState!.validate() &&
         imagePickerController.selectedImages.isNotEmpty) {
       print("validated");
 
-      servicesController.addProduct(
-        Services(
-          name: nameController.text,
-          price: double.parse(priceController.text),
-          description: descController.text,
-          image: imagePickerController.selectedImages
-              .map((e) => e.path)
-              .toList()
-              .join(','),
-          categoryId: servicesController.categoryId.value, // Assign category
-        ),
-      );
-
-      servicesController.addServiceapi(
+      // Await the API result
+      bool isSuccess = await servicesController.addServiceapi(
         name: nameController.text,
         description: descController.text,
         price: priceController.text,
@@ -83,13 +72,32 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
             imagePickerController.selectedImages.map((e) => e.path).toList(),
       );
 
-      nameController.clear();
-      priceController.clear();
-      descController.clear();
-      imagePickerController.clearImages();
+      if (isSuccess) {
+        // Only add to local state if API succeeded
+        servicesController.addProduct(
+          Services(
+            name: nameController.text,
+            price: double.parse(priceController.text),
+            description: descController.text,
+            image: imagePickerController.selectedImages
+                .map((e) => e.path)
+                .toList()
+                .join(','),
+            categoryId: servicesController.categoryId.value,
+          ),
+        );
+
+        // Clear form and images
+        nameController.clear();
+        priceController.clear();
+        descController.clear();
+        imagePickerController.clearImages();
+      }
     } else {
-      CommonSnackbar.show(
-          title: "Error", message: "Add Image and Continue", isError: true);
+      if (imagePickerController.selectedImages.isEmpty) {
+        CommonSnackbar.show(
+            title: "Error", message: "Add Image and Continue", isError: true);
+      }
     }
   }
 
@@ -124,9 +132,6 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                               height: 60,
                               controller: tittleController,
                               hintText: "Enter Service Title",
-                              validator: (value) => value!.isEmpty
-                                  ? 'Description is required'
-                                  : null,
                             ),
                           ),
                           CommonSizedBox.w5,
@@ -145,10 +150,17 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                                       widget.business.toString(),
                                     );
                                   } else {
-                                    CommonSnackbar.show(
-                                        title: "Error",
-                                        message: "Tittle Already added",
-                                        isError: true);
+                                    if (tittleController.text.isEmpty) {
+                                      CommonSnackbar.show(
+                                          title: "Info",
+                                          message: "Please add a tittle",
+                                          isError: false);
+                                    } else {
+                                      CommonSnackbar.show(
+                                          title: "Error",
+                                          message: "Tittle Already added",
+                                          isError: true);
+                                    }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -237,7 +249,15 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            _addService();
+                            if (servicesController.showTitle.value == true) {
+                              _addService();
+                            } else {
+                              CommonSnackbar.show(
+                                title: "Info",
+                                message: "Please add a tittle",
+                                isError: false,
+                              );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xffFF750C),
@@ -248,7 +268,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                             ),
                           ),
                           child: Text(
-                            'Add Product',
+                            'Add Service',
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),

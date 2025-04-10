@@ -24,6 +24,7 @@ class AddProductScreen extends StatefulWidget {
       {super.key, required this.nav, required this.id, required this.product});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddProductScreenState createState() => _AddProductScreenState();
 }
 
@@ -43,39 +44,70 @@ class _AddProductScreenState extends State<AddProductScreen> {
   List<File> selectedImages = [];
   late ImagePickerWidget imagePickerWidget;
 
-  void _addProduct() {
+  Future<void> _addProduct() async {
     if (_formKey.currentState!.validate() &&
-        imagePickerController.selectedImages.isNotEmpty) {
+        imagePickerController.selectedImages.isNotEmpty &&
+        categoryController.text.isNotEmpty) {
       Loader.show();
-      productController.addProduct(Product(
-        name: nameController.text,
-        price: double.parse(priceController.text),
-        description: descController.text,
-        category: categoryController.text,
-        image: imagePickerController.selectedImages
-            .map((e) => e.path)
-            .toList()
-            .join(','), // Store image paths
-      ));
-      productController.addProductapi(
-          name: nameController.text,
-          description: descController.text,
-          price: priceController.text,
-          subCat: catid,
-          business: widget.id,
-          imagePaths:
-              imagePickerController.selectedImages.map((e) => e.path).toList());
-      // Clear input fields
-      nameController.clear();
-      priceController.clear();
-      descController.clear();
-      categoryController.clear();
 
-      // Clear selected images from ImagePickerWidget
-      imagePickerController.clearImages();
+      // 调用 API 并等待结果
+      final success = await productController.addProductapi(
+        name: nameController.text,
+        description: descController.text,
+        price: priceController.text,
+        subCat: catid,
+        business: widget.id,
+        imagePaths:
+            imagePickerController.selectedImages.map((e) => e.path).toList(),
+      );
+
+      // 如果 API 调用成功，才添加产品到 Product 列表
+      if (success) {
+        productController.addProduct(
+          Product(
+            name: nameController.text,
+            price: double.parse(priceController.text),
+            description: descController.text,
+            category: categoryController.text,
+            image: imagePickerController.selectedImages
+                .map((e) => e.path)
+                .toList()
+                .join(','),
+          ),
+        );
+
+        // 清空输入字段
+        nameController.clear();
+        priceController.clear();
+        descController.clear();
+        categoryController.clear();
+
+        // 清空选择的图片
+        imagePickerController.clearImages();
+      }
     } else {
-      CommonSnackbar.show(
-          title: "Error", message: "Add Image and Continue", isError: true);
+      bool showError = false;
+      String errorMessage = '';
+
+      if (categoryController.text.isEmpty) {
+        errorMessage = "Add Category and Continue";
+        showError = true;
+      }
+
+      if (imagePickerController.selectedImages.isEmpty) {
+        errorMessage = "Add Image and Continue";
+        showError = true;
+      }
+
+      if (!showError) {
+        errorMessage = "Fill all the fields and Continue";
+        showError = true;
+      }
+
+      if (showError) {
+        CommonSnackbar.show(
+            title: "Error", message: errorMessage, isError: true);
+      }
     }
   }
 

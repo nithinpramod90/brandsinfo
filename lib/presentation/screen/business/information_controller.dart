@@ -17,6 +17,7 @@ class InformationController extends GetxController {
     String state,
     String wpnum,
     String businessType,
+    String address,
   ) async {
     try {
       Loader.show();
@@ -30,7 +31,8 @@ class InformationController extends GetxController {
           "city": cityid,
           "state": state,
           "whatsapp_number": wpnum,
-          "buisness_type": businessType
+          "buisness_type": businessType,
+          'building_name': address
         },
         useSession: true,
       );

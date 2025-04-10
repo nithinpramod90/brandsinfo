@@ -72,7 +72,7 @@ class ServicesController extends GetxController {
     }
   }
 
-  void addServiceapi({
+  Future<bool> addServiceapi({
     required String name,
     required String description,
     required String price,
@@ -101,20 +101,20 @@ class ServicesController extends GetxController {
       );
 
       if (response.statusCode == 201) {
-        print(productData);
         Loader.hide();
         CommonSnackbar.show(
             isError: false,
             title: "Success",
             message: "Product added successfully");
+        return true; // Return success
       } else {
-        print(response);
         Loader.hide();
         CommonSnackbar.show(
           isError: true,
           title: "Error",
           message: "Failed to add product",
         );
+        return false; // Return failure
       }
     } catch (e) {
       Loader.hide();
@@ -122,6 +122,9 @@ class ServicesController extends GetxController {
           isError: true,
           title: "Error",
           message: "Something Unexpected Occurred!");
+      return false; // Return failure
+    } finally {
+      Loader.hide();
     }
   }
 }

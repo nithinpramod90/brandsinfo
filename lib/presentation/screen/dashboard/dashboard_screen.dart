@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                             .setBidAndNavigate(business.id.toString());
                       },
                       child: BusinessCard(
-                        score: business.score ?? "",
+                        score: business.score,
                         name: business.name,
                         locality:
                             ("${business.locality}, ${business.city ?? ''}"),

@@ -1,0 +1,1 @@
+/home/hyper/Documents/bi/brandsinfo/build/app/intermediates/cxx/RelWithDebInfo/2614c1v2/obj/arm64-v8a

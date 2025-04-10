@@ -1,7 +1,6 @@
 import 'package:brandsinfo/network/api_service.dart';
 import 'package:flutter/material.dart';
 
-// Service model to parse the API response
 class Service {
   final int id;
   final String cat;
@@ -9,6 +8,7 @@ class Service {
   final double price;
   final String image;
   final int searched;
+  final String description;
   final int buisness;
 
   Service({
@@ -18,29 +18,36 @@ class Service {
     required this.price,
     required this.image,
     required this.searched,
+    required this.description,
     required this.buisness,
   });
 
   factory Service.fromJson(Map<String, dynamic> json) {
+    // Extract first image if available
+    String imagePath = '';
+    if (json['service_images'] is List && json['service_images'].isNotEmpty) {
+      imagePath = json['service_images'][0]['image']?.toString() ?? '';
+    }
+
     return Service(
       id: json['id'] ?? 0,
-      cat: json['cat']?.toString() ?? '',
+      cat: json['cat_name']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       price: _parsePrice(json['price']),
-      image: json['image']?.toString() ?? '',
+      image: imagePath,
       searched: json['searched'] ?? 0,
+      description: json['description'] ?? "",
       buisness: json['buisness'] ?? 0,
     );
   }
 
-  // Helper method to safely parse price
   static double _parsePrice(dynamic value) {
     if (value == null) return 0.0;
     if (value is num) return value.toDouble();
     if (value is String) {
       try {
         return double.parse(value);
-      } catch (e) {
+      } catch (_) {
         return 0.0;
       }
     }
