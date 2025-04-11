@@ -415,13 +415,20 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (widget.service == true) {
-                              Get.off(() => ServiceScreen(
-                                  bid: widget.business.toString()));
+                            if (servicesController.service.isEmpty) {
+                              CommonSnackbar.show(
+                                  title: "Info",
+                                  message: "Please add a Service and Continue",
+                                  isError: false);
                             } else {
-                              Get.off(() => SearchSectorScreen(
-                                    bid: widget.business,
-                                  ));
+                              if (widget.service == true) {
+                                Get.off(() => ServiceScreen(
+                                    bid: widget.business.toString()));
+                              } else {
+                                Get.off(() => SearchSectorScreen(
+                                      bid: widget.business,
+                                    ));
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(

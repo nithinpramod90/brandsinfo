@@ -176,43 +176,6 @@ class KeywordsWidget extends StatelessWidget {
               ],
             ),
           ),
-
-          // // Premium indicator
-          // Positioned(
-          //   top: 16,
-          //   right: 16,
-          //   child: Container(
-          //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-          //     decoration: BoxDecoration(
-          //       color: Colors.black.withOpacity(0.25),
-          //       borderRadius: BorderRadius.circular(12),
-          //       border: Border.all(
-          //         color: const Color(0xFFFF750C).withOpacity(0.3),
-          //         width: 1,
-          //       ),
-          //     ),
-          //     child: Row(
-          //       mainAxisSize: MainAxisSize.min,
-          //       children: [
-          //         Icon(
-          //           Icons.auto_graph,
-          //           size: 12,
-          //           color: const Color(0xFFFF750C),
-          //         ),
-          //         const SizedBox(width: 4),
-          //         Text(
-          //           'INSIGHTS',
-          //           style: GoogleFonts.poppins(
-          //             fontSize: 10,
-          //             fontWeight: FontWeight.w600,
-          //             color: Colors.white.withOpacity(0.9),
-          //             letterSpacing: 0.5,
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

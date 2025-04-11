@@ -1,42 +1,23 @@
-// ignore_for_file: deprecated_member_use
+import 'dart:ui';
 
-import 'package:brandsinfo/presentation/screen/analytics/analytics_screen.dart';
+import 'package:brandsinfo/presentation/screen/business%20categories/category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import 'dart:ui';
 
-class EnhancedEmeraldBlurCard extends StatelessWidget {
-  const EnhancedEmeraldBlurCard({
-    super.key,
-    required this.title,
-    required this.value,
-    required this.subtitle,
-    required this.percentage,
-    this.isPositive = true,
-    this.icon = LucideIcons.users,
-    required this.bid,
-  });
-
-  final String title;
-  final String value;
-  final String subtitle;
-  final String percentage;
-  final bool isPositive;
-  final IconData icon;
+class BusinessCategoryContainer extends StatelessWidget {
+  const BusinessCategoryContainer({super.key, required this.bid});
   final String bid;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => AnalyticsDashboardScreen(
-              bid: bid,
+        Get.to(() => BusinessCategoriesScreen(
+              businessId: bid,
             ));
       },
       child: Container(
-        height: 120,
+        height: 70,
         margin: EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -87,7 +68,7 @@ class EnhancedEmeraldBlurCard extends StatelessWidget {
                       end: Alignment.bottomRight,
                       colors: [
                         Colors.white.withOpacity(0.25),
-                        Colors.white.withOpacity(0.05),
+                        Colors.white.withOpacity(0.25),
                       ],
                     ),
                   ),
@@ -113,7 +94,7 @@ class EnhancedEmeraldBlurCard extends StatelessWidget {
                       ),
                       child: Center(
                         child: Icon(
-                          icon,
+                          Icons.business,
                           // color: Colors.white,
                           size: 22,
                         ),
@@ -129,66 +110,20 @@ class EnhancedEmeraldBlurCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            title,
+                            "Buisness Categories",
                             style: GoogleFonts.poppins(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            value,
-                            style: GoogleFonts.poppins(
-                              fontSize: 26,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: Colors.orange,
+                              // color: Colors.orange,
                               height: 1.1,
                             ),
                           ),
-                          Text(
-                            subtitle,
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              height: 1.2,
-                            ),
-                          ),
                         ],
                       ),
                     ),
-
-                    // Right side - Percentage indicator
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: isPositive
-                            ? Colors.green.withOpacity(0.1)
-                            : Colors.red.withOpacity(0.1),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            isPositive
-                                ? LucideIcons.trendingUp
-                                : LucideIcons.trendingDown,
-                            color: isPositive ? Colors.lightGreen : Colors.red,
-                            size: 14,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            "$percentage%",
-                            style: GoogleFonts.poppins(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color:
-                                  isPositive ? Colors.lightGreen : Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    Icon(
+                      Icons.navigate_next_outlined,
+                    )
                   ],
                 ),
               ),

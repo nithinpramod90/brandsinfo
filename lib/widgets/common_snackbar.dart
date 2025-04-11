@@ -12,7 +12,7 @@ class CommonSnackbar {
       title,
       message,
       snackPosition: SnackPosition.TOP,
-      backgroundColor: isError ? Colors.red : Color(0xffFF750C),
+      backgroundColor: isError ? Color(0xffFF750C) : Color(0xffFF750C),
       colorText: Colors.white,
       duration: Duration(seconds: durationInSeconds),
       margin: const EdgeInsets.all(10),

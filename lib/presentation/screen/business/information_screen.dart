@@ -21,12 +21,13 @@ class InformationScreen extends StatefulWidget {
 class InformationScreenState extends State<InformationScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController businessNameController = TextEditingController();
+  final TextEditingController descriptioncontroller = TextEditingController();
+
   final TextEditingController pincodeController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
   final TextEditingController districtController = TextEditingController();
   final TextEditingController whatsappController = TextEditingController();
   final TextEditingController addresscontroller = TextEditingController();
-
   String? selectedBusinessType = "Products & Services";
   String? selectedLocality;
   int? selectedLocalityId; // Change type to int
@@ -47,6 +48,7 @@ class InformationScreenState extends State<InformationScreen> {
         whatsappController.text,
         selectedBusinessType ?? "",
         addresscontroller.text,
+        descriptioncontroller.text,
       );
       print("Business Name: ${businessNameController.text}");
       print("Business Type: $selectedBusinessType");
@@ -108,6 +110,15 @@ class InformationScreenState extends State<InformationScreen> {
                         validator: (value) =>
                             value!.isEmpty ? 'Pincode is required' : null,
                         onChanged: fetchAndSetCityState,
+                      ),
+                      CommonSizedBox.h10,
+                      CustomTextField(
+                        controller: descriptioncontroller,
+                        hintText: "Description",
+                        keyboardType: TextInputType.text,
+                        maxlength: 6,
+                        validator: (value) =>
+                            value!.isEmpty ? 'Description is required' : null,
                       ),
                       CommonSizedBox.h10,
                       CustomTextField(
@@ -198,49 +209,12 @@ class InformationScreenState extends State<InformationScreen> {
                           ),
                         ),
                       ),
-                      // DropdownButtonFormField<String>(
-                      //   value: selectedLocality,
-                      //   items: localities.map((String locality) {
-                      //     return DropdownMenuItem<String>(
-                      //       value: locality,
-                      //       child: Text(locality),
-                      //     );
-                      //   }).toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectedLocality = value;
-
-                      //       // Ensure we find the locality correctly
-                      //       final selectedItem = localityData.firstWhere(
-                      //         (element) =>
-                      //             element['locality_name']
-                      //                 .toString()
-                      //                 .trim()
-                      //                 .toLowerCase() ==
-                      //             value!.trim().toLowerCase(),
-                      //         orElse: () => {
-                      //           'id': null
-                      //         }, // Prevents crash if no match is found
-                      //       );
-
-                      //       selectedLocalityId = selectedItem['id'] as int?;
-                      //       print("Updated Locality ID: $selectedLocalityId");
-                      //     });
-                      //   },
-                      //   decoration: InputDecoration(
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(12.0),
-                      //       borderSide:
-                      //           const BorderSide(color: Color(0xffFF750C)),
-                      //     ),
-                      //   ),
-                      // ),
                       CommonSizedBox.h10,
                       CustomTextField(
                         controller: whatsappController,
                         hintText: "Enter your WhatsApp number",
                         keyboardType: TextInputType.phone,
-                        prefixText: "+91 ",
+                        // prefixText: "+91 ",
                         maxlength: 10,
                         validator: (value) => value!.isEmpty
                             ? 'WhatsApp number is required'

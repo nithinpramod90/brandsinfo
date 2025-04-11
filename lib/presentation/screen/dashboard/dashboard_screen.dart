@@ -1,3 +1,4 @@
+import 'package:brandsinfo/model/business_model.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/businessinfo_controller.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/business_controller.dart';
 import 'package:brandsinfo/presentation/screen/dashboard/widget/dashboard_grid.dart';
@@ -127,6 +128,7 @@ class HomeScreen extends StatelessWidget {
                             ("${business.locality}, ${business.city ?? ''}"),
                         views: business.noOfViews,
                         image: business.image,
+                        plan: business.plan.planName,
                       ),
                     ),
                   );

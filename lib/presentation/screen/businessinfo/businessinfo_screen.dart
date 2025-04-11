@@ -1,5 +1,6 @@
 import 'package:brandsinfo/presentation/screen/businessinfo/businessinfo_controller.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/business_switch.dart';
+import 'package:brandsinfo/presentation/screen/businessinfo/widgets/category_container.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/circle_score.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/detais_container.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/keywords_widget.dart';
@@ -90,6 +91,10 @@ class _BusinessinfoScreenState extends State<BusinessinfoScreen> {
                                                 "0.0",
                                         subtitle: "People viewed your business",
                                         isPositive: true,
+                                      ),
+                                      CommonSizedBox.h20,
+                                      BusinessCategoryContainer(
+                                        bid: business['id'].toString() ?? "",
                                       ),
                                       CommonSizedBox.h20,
                                       KeywordsWidget(

@@ -39,7 +39,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintText: widget.hintText,
         prefix: widget.prefixText != null ? Text(widget.prefixText!) : null,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(7.0),
           borderSide: const BorderSide(color: Color(0xffFF750C)),
         ),
         contentPadding: widget.height != null

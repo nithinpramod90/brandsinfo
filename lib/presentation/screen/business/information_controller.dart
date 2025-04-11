@@ -18,6 +18,7 @@ class InformationController extends GetxController {
     String wpnum,
     String businessType,
     String address,
+    String description,
   ) async {
     try {
       Loader.show();
@@ -25,6 +26,7 @@ class InformationController extends GetxController {
         '/users/buisnesses/',
         {
           'name': name,
+          'description': description,
           "pincode": pincode,
           "locality": localityid,
           "district": district,
