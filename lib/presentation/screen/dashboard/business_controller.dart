@@ -1,5 +1,6 @@
 import 'package:brandsinfo/model/business_model.dart';
 import 'package:brandsinfo/network/api_service.dart';
+import 'package:brandsinfo/presentation/screen/notification/device_token.dart';
 import 'package:get/get.dart';
 
 class BusinessController extends GetxController {
@@ -23,6 +24,7 @@ class BusinessController extends GetxController {
       isLoading(true);
       var response = await ApiService().get("/users/buisnesses/");
       businessResponse.value = BusinessResponse.fromJson(response);
+      NotificationService.initNotifications();
     } catch (e) {
       print("Error fetching businesses: $e");
     } finally {

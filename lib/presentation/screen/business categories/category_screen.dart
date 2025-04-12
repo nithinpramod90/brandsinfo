@@ -33,7 +33,7 @@ class BusinessCategoriesScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Error: ${controller.errorMessage.value}'),
+                Text('Please Retry'),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => controller.fetchCategories(businessId),

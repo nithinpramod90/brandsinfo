@@ -142,37 +142,36 @@ class ProfileScoreWidget extends StatelessWidget {
                     ),
                     // SizedBox(height: size * 0.05),
                     ElevatedButton.icon(
-                      onPressed: onIncreasePressed ??
-                          () {
-                            Get.to(() => DetailsScreen(
-                                      bid: bid,
-                                    ))!
-                                .then((_) => controller.fetchBusinessData());
-                          }, // Add fallback empty function
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: scoreColor.withOpacity(0.2),
-                        foregroundColor: scoreColor,
-                        elevation: 0,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: size * 0.1,
-                          vertical: size * 0.02,
+                        onPressed: onIncreasePressed ??
+                            () {
+                              Get.to(() => DetailsScreen(
+                                        bid: bid,
+                                      ))!
+                                  .then((_) => controller.fetchBusinessData());
+                            }, // Add fallback empty function
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: scoreColor.withOpacity(0.2),
+                          foregroundColor: scoreColor,
+                          elevation: 0,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size * 0.1,
+                            vertical: size * 0.02,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
+                        icon: Icon(
+                          Icons.trending_up,
+                          size: size * 0.06,
                         ),
-                      ),
-                      icon: Icon(
-                        Icons.trending_up,
-                        size: size * 0.06,
-                      ),
-                      label: Text(
-                        "Boost Score",
-                        style: GoogleFonts.poppins(
-                          fontSize: size * 0.06,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                        label: Text(
+                          score == 100 ? "Update Profile" : "Boost Score",
+                          style: GoogleFonts.poppins(
+                            fontSize: size * 0.06,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )),
                   ],
                 ),
               ),

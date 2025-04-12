@@ -116,7 +116,6 @@ class InformationScreenState extends State<InformationScreen> {
                         controller: descriptioncontroller,
                         hintText: "Description",
                         keyboardType: TextInputType.text,
-                        maxlength: 6,
                         validator: (value) =>
                             value!.isEmpty ? 'Description is required' : null,
                       ),

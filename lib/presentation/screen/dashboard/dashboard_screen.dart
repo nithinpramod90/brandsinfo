@@ -107,7 +107,7 @@ class HomeScreen extends StatelessWidget {
               child: ListView.builder(
                 // More efficient for scrolling performance
                 physics: const AlwaysScrollableScrollPhysics(),
-                addAutomaticKeepAlives: false, // Remove unnecessary keep-alives
+                addAutomaticKeepAlives: false,
                 addRepaintBoundaries: true,
                 itemCount: businesses.length,
                 itemBuilder: (context, index) {
