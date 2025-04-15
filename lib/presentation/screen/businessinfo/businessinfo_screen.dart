@@ -1,3 +1,4 @@
+import 'package:brandsinfo/network/api_constants.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/businessinfo_controller.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/business_switch.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/category_container.dart';
@@ -9,6 +10,7 @@ import 'package:brandsinfo/presentation/screen/businessinfo/widgets/products_wid
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/profile_imagewidget.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/total_visits.dart';
 import 'package:brandsinfo/presentation/screen/businessinfo/widgets/upgrade_banner.dart';
+import 'package:brandsinfo/presentation/screen/package/pricing_screen.dart';
 import 'package:brandsinfo/presentation/screen/products/products_screen.dart';
 import 'package:brandsinfo/presentation/screen/servicces/service_screen.dart';
 import 'package:brandsinfo/widgets/sized_box.dart';
@@ -310,6 +312,7 @@ class _BusinessinfoScreenState extends State<BusinessinfoScreen> {
                                                   Text(
                                                     "Keywords & Search Analytics",
                                                     style: TextStyle(
+                                                        color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 16),
@@ -451,7 +454,7 @@ class _BusinessinfoScreenState extends State<BusinessinfoScreen> {
             onPressed: () {
               Navigator.pop(context);
               // Navigate to subscription screen
-              // Get.to(() => SubscriptionScreen());
+              Get.to(() => SubscriptionPlansScreen());
             },
             child: Text("Upgrade Now"),
             style: ElevatedButton.styleFrom(
@@ -528,7 +531,7 @@ class LimitedProductsPreview extends StatelessWidget {
                                 BorderRadius.vertical(top: Radius.circular(10)),
                             child: hasImages
                                 ? Image.network(
-                                    'https://yourwebsite.com${(product['product_images'][0]['image'])}',
+                                    '${ApiConstants.apiurl}${(product['product_images'][0]['image'])}',
                                     height: 100,
                                     width: double.infinity,
                                     fit: BoxFit.cover,

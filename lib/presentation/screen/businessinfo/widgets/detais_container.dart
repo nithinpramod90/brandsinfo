@@ -95,7 +95,7 @@ class GlassmorphicDetailsContainer extends StatelessWidget {
                 style: GoogleFonts.ubuntu(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade200,
+                  // color: Colors.grey.shade200,
                 ),
               ),
             ],

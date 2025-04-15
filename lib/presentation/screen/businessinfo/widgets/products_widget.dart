@@ -60,7 +60,9 @@ class ProductServiceSelector extends StatelessWidget {
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white.withOpacity(0.2),
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Colors.indigo.shade50 // Dark mode color
+            : Colors.black38, // Light mode color,
         padding: const EdgeInsets.symmetric(vertical: 16),
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -74,7 +76,7 @@ class ProductServiceSelector extends StatelessWidget {
           Icon(
             icon,
             size: 32,
-            color: Colors.white,
+            // color: Colors.white,
           ),
           const SizedBox(height: 8),
           Text(

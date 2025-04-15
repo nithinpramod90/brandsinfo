@@ -59,7 +59,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         IconButton(
                           icon: Icon(CupertinoIcons.bell),
                           onPressed: () {
-                            Get.to(() => NotificationScreen());
+                            Get.to(() => NotificationsScreen());
                           },
                         ),
                         Positioned(
